@@ -1,0 +1,1 @@
+{"version":3,"sources":["simplex.css"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA;AACA","file":"all.css","sourcesContent":[".vertical-center {\r\n\talign-items: center;\r\n\tdisplay: flex;\r\n\tmin-height: 98%;\r\n  \tmin-height: 98vh;\r\n}"],"sourceRoot":"/source/"}
