@@ -9,17 +9,17 @@ use App\Http\Requests;
 class HomeController extends Controller
 {
     public function index() {
-    	return view('home');
+        return view('home');
     }
 
     public function back(Request $request) {
-		return back();
+        return back();
     }
 
     public function form(Request $request) {
-    	$variaveis = $request->get('variaveis');
-    	$restricoes = $request->get('restricoes');
+        $variaveis = $request->get('variaveis');
+        $restricoes = $request->get('restricoes');
 
-		return view('home', compact('variaveis', 'restricoes'));
+        return view('home', compact('variaveis', 'restricoes'));
     }
 }

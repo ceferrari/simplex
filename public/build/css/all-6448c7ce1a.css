@@ -1,5 +1,4 @@
 html, body {
-	background-color: #eee;
 	height: 100%;
 }
 
@@ -17,10 +16,6 @@ body > div h6 {
 	margin-bottom: 0;
 	padding-bottom: 30px;
 	padding-top: 30px;
-}
-
-.container {
-	margin: auto;
 }
 
 .form-group-inline {
