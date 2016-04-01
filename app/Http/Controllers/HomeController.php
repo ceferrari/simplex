@@ -12,10 +12,14 @@ class HomeController extends Controller
     	return view('home');
     }
 
-    public function store(Request $request) {
+    public function back(Request $request) {
+		return back();
+    }
+
+    public function form(Request $request) {
     	$variaveis = $request->get('variaveis');
     	$restricoes = $request->get('restricoes');
 
-    	return view('variables', compact('variaveis', 'restricoes'));
+		return view('home', compact('variaveis', 'restricoes'));
     }
 }

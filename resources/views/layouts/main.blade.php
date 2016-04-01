@@ -2,7 +2,7 @@
 <html lang="en">
 
     <head>
-        <meta charset="UTF-8">
+        <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Simplex</title>
@@ -19,15 +19,13 @@
         <![endif]-->
     </head>
 
-    <body class="vertical-center">
+    <body class="jumbotron vertical-center">
         <div class="container">
-            <div class="well text-center">
-                <h1>SIMPLEX by Carlos Eduardo Ferrari</h1>
-            </div>
-            
             @yield('content')
+            <h6 class="text-right"><b>SIMPLEX by Carlos Eduardo Ferrari</b></h6>
         </div>
         
+        <script src="{{ asset('js/all.js') }}"></script>
         <link rel="stylesheet" href="{{ asset('css/all.css') }}">
     </body>
 

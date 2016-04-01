@@ -1,6 +1,33 @@
+html, body {
+	background-color: #eee;
+	height: 100%;
+}
+
+body > div h6 {
+	margin-right: 10px;
+}
+
 .vertical-center {
-	align-items: center;
 	display: flex;
-	min-height: 98%;
-  	min-height: 98vh;
+	height: 98%;
+  	height: 98vh;
+}
+
+.jumbotron {
+	margin-bottom: 0;
+	padding-bottom: 30px;
+	padding-top: 30px;
+}
+
+.container {
+	margin: auto;
+}
+
+.form-group-inline {
+	display: inline;
+}
+
+.input-group {
+	margin: 0.5em;
+	width: 9%;
 }

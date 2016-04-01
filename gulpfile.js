@@ -19,6 +19,10 @@ elixir(function(mix) {
 		'proxy': 'simplex.app'
 	});
 
+	mix.scripts([
+		'simplex.js'
+	]);
+
 	mix.styles([
 		'simplex.css'
 	]);

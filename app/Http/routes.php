@@ -13,10 +13,5 @@
 
 Route::group(['prefix' => '/'], function() {
 	Route::get('', ['as' => 'home.index', 'uses' => 'HomeController@index']);
-	Route::post('', ['as' => 'home.store', 'uses' => 'HomeController@store']);
-});
-
-Route::group(['prefix' => 'variables'], function() {
-	Route::get('', ['as' => 'variables.index', 'uses' => 'VariablesController@index']);
-	Route::post('', ['as' => 'variables.store', 'uses' => 'VariablesController@store']);
+	Route::post('', ['as' => 'home.form', 'uses' => 'HomeController@form']);
 });
