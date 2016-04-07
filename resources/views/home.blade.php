@@ -1,7 +1,9 @@
 @extends('layouts.main')
 
 @section('content')
-    @if(isset($variaveis) && isset($restricoes))
+    @if(isset($tabela))
+        @include('partials.table')
+    @elseif(isset($variaveis) && isset($restricoes))
         @include('partials.variables')
     @else
         @include('partials.constraints')

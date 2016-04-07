@@ -1,5 +1,8 @@
 <div class="form thumbnail text-center">
-    {!! Form::open([]) !!}
+    {!! Form::open(['action' => 'HomeController@table']) !!}
+
+    <input type="hidden" name="variaveis" value="{{ $variaveis }}">
+    <input type="hidden" name="restricoes" value="{{ $restricoes }}">
 
     <h3><b>Função:</b></h3>
     <div class="form-inline">
@@ -8,7 +11,7 @@
             <div class="form-group-inline">
                 <label for="{{ 'x'.$v }}" class="sr-only"></label>
                 <div class="input-group">
-                    <input id="{{ 'x'.$v }}" class="form-control" type="text">
+                    <input name="{{ 'x'.$v }}" class="form-control" type="text">
                     <div class="input-group-addon"><b>{{ 'x'.$v }}</b></div>
                 </div>
                 @if ($v < $variaveis)
@@ -26,9 +29,9 @@
 
             @for($v = 1; $v <= $variaveis; $v++)
                 <div class="form-group-inline">
-                    <label for="{{ 'x'.$v }}" class="sr-only"></label>
+                    <label for="{{ 'r'.$r.'x'.$v }}" class="sr-only"></label>
                     <div class="input-group">
-                        <input id="{{ 'x'.$v }}" class="form-control" type="text">
+                        <input name="{{ 'r'.$r.'x'.$v }}" class="form-control" type="text">
                         <div class="input-group-addon"><b>{{ 'x'.$v }}</b></div>
                     </div>
                     @if ($v < $variaveis)
@@ -43,9 +46,9 @@
                 <option value="igual">==</option>
             </select>
             <div class="form-group-inline">
-                <label for="{{ 'x'.$v }}" class="sr-only"></label>
+                <label for="{{ 'b'.$r }}" class="sr-only"></label>
                 <div class="input-group">
-                    <input id="{{ 'x'.$v }}" class="form-control" type="text">
+                    <input name="{{ 'b'.$r }}" class="form-control" type="text">
                 </div>
             </div>
 
@@ -56,7 +59,7 @@
         @for($v = 1; $v <= $variaveis; $v++)
             {{ 'x'.$v }}
             @if ($v < $variaveis)
-                , 
+                ,
             @endif
         @endfor
         >= 0

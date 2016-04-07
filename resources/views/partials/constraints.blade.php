@@ -1,5 +1,5 @@
 <div class="form-horizontal thumbnail text-center">
-    {!! Form::open([]) !!}
+    {!! Form::open(['action' => 'HomeController@variables']) !!}
 
     <h2><b>Definições</b></h2>
 
