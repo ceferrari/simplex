@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Simplex\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 

@@ -1,26 +1,23 @@
 <div class="form thumbnail text-center">
     {!! Form::open(['action' => 'HomeController@table']) !!}
 
-
-
     <h3><b>Tabela:</b></h3>
-    <?php if (count($tabela) > 0): ?>
     <table class="table table-striped table-bordered table-hover">
         <thead>
             <tr>
-                <th><?php echo implode('</th><th>', array_keys(current($tabela))); ?></th>
+                <th>Base</th>
+                <th>{!! implode('</th><th>', array_keys(current($tabela))) !!}</th>
             </tr>
       </thead>
       <tbody>
-          <?php foreach ($tabela as $row): array_map('htmlentities', $row); ?>
+          @foreach ($tabela as $key => $row)
               <tr>
-                  <td><?php echo implode('</td><td>', $row); ?></td>
+                  <td><b>{!! $key !!}</b></td>
+                  <td>{!! implode('</td><td>', $row) !!}</td>
               </tr>
-          <?php endforeach; ?>
+          @endforeach
       </tbody>
     </table>
-    <?php endif; ?>
-
 
     <hr class="divider">
     <div class="form-group row">
