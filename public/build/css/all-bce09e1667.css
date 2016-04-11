@@ -1,8 +1,11 @@
 html, body {
     height: 100%;
 }
-body > div h6 {
+body > div {
     margin-right: 10px;
+}
+td {
+    width: 8%;
 }
 .vertical-center {
 		align-items: center;

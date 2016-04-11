@@ -33,11 +33,16 @@ class HomeController extends Controller
     public function table(Request $request) {
         $tabela = $this->repository->createTable($request);
 
-        //dd($tabela);
-
-        // $row[] = $tabela['Z'];
-        dd($this->repository->baseChange());
+        // $this->repository->execute();
+        // $this->repository->execute();
+        // dd($this->repository->getTable());
 
         return view('home', compact('tabela'));
+    }
+
+    public function solution() {
+        $solution = $this->repository->solution();
+
+        return view('home', compact('solution'));
     }
 }
