@@ -1,20 +1,21 @@
-<div class="form thumbnail text-center">
+<div class="form text-center">
     {!! Form::open(['action' => 'HomeController@table']) !!}
 
-    <input type="hidden" name="variaveis" value="{{ $variaveis }}">
-    <input type="hidden" name="restricoes" value="{{ $restricoes }}">
+    <input type="hidden" name="variables" value="{{ $variables }}">
+    <input type="hidden" name="constraints" value="{{ $constraints }}">
+    <input type="hidden" name="iterations" value="{{ $iterations }}">
 
     <h3><b>Função:</b></h3>
     <div class="form-inline">
 
-        @for($v = 1; $v <= $variaveis; $v++)
+        @for($v = 1; $v <= $variables; $v++)
             <div class="form-group-inline">
                 <label for="{{ 'x'.$v }}" class="sr-only"></label>
                 <div class="input-group">
-                    <input name="{{ 'x'.$v }}" class="form-control" type="text">
+                    <input name="{{ 'x'.$v }}" class="form-control" type="text" required>
                     <div class="input-group-addon"><b>{{ 'x'.$v }}</b></div>
                 </div>
-                @if ($v < $variaveis)
+                @if ($v < $variables)
                     +
                 @endif
             </div>
@@ -24,17 +25,17 @@
 
     <hr class="divider">
     <h3><b>Restrições:</b></h3>
-    @for($r = 1; $r <= $restricoes; $r++)
+    @for($r = 1; $r <= $constraints; $r++)
         <div class="form-inline">
 
-            @for($v = 1; $v <= $variaveis; $v++)
+            @for($v = 1; $v <= $variables; $v++)
                 <div class="form-group-inline">
                     <label for="{{ 'r'.$r.'x'.$v }}" class="sr-only"></label>
                     <div class="input-group">
-                        <input name="{{ 'r'.$r.'x'.$v }}" class="form-control" type="text">
+                        <input name="{{ 'r'.$r.'x'.$v }}" class="form-control" type="text" required>
                         <div class="input-group-addon"><b>{{ 'x'.$v }}</b></div>
                     </div>
-                    @if ($v < $variaveis)
+                    @if ($v < $variables)
                         +
                     @endif
                 </div>
@@ -48,44 +49,26 @@
             <div class="form-group-inline">
                 <label for="{{ 'b'.$r }}" class="sr-only"></label>
                 <div class="input-group">
-                    <input name="{{ 'b'.$r }}" class="form-control" type="text">
+                    <input name="{{ 'b'.$r }}" class="form-control" type="text" required>
                 </div>
             </div>
 
         </div>
     @endfor
 
-    <h4 class="form-inline">
-        @for($v = 1; $v <= $variaveis; $v++)
-            {{ 'x'.$v }}
-            @if ($v < $variaveis)
-                ,
-            @endif
-        @endfor
-        >= 0
-    </h4>
-
-    <hr class="divider">
-    <div class="form-group row">
-        <div class="col-sm-2 col-sm-offset-3">
-            <button type="button" class="btn btn-default btn-block">
-                <span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span>
-                Voltar
-            </button>
-        </div>
-        <div class="col-sm-2">
-            <button type="button" class="btn btn-default btn-block">
-                <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
-                Novo
-            </button>
-        </div>
-        <div class="col-sm-2">
-            <button type="submit" class="btn btn-default btn-block">
-                Próximo
-                <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span>
-            </button>
-        </div>
+    <div class="form-inline">
+        <h4>
+            @for($v = 1; $v <= $variables; $v++)
+                {{ 'x'.$v }}
+                @if ($v < $variables)
+                    ,
+                @endif
+            @endfor
+            >= 0
+        </h4>
     </div>
+
+    @include('partials.buttons')
 
     {!! Form::close() !!}
 </div>

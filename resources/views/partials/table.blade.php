@@ -1,16 +1,17 @@
-<div class="form thumbnail text-center">
-    {!! Form::open(['action' => 'HomeController@table']) !!}
+<div class="form text-center">
+    {!! Form::open(['action' => 'HomeController@solution']) !!}
 
     <h3><b>Tabela:</b></h3>
-    <table class="table table-striped table-bordered table-hover">
+    <hr class="separator" />
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>Base</th>
-                <th>{!! implode('</th><th>', array_keys(current($tabela))) !!}</th>
+                <th>{!! implode('</th><th>', array_keys(current($table))) !!}</th>
             </tr>
       </thead>
       <tbody>
-          @foreach ($tabela as $key => $row)
+          @foreach ($table as $key => $row)
               <tr>
                   <td><b>{!! $key !!}</b></td>
                   <td>{!! implode('</td><td>', $row) !!}</td>
@@ -19,27 +20,7 @@
       </tbody>
     </table>
 
-    <hr class="divider">
-    <div class="form-group row">
-        <div class="col-sm-2 col-sm-offset-3">
-            <button type="button" class="btn btn-default btn-block">
-                <span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span>
-                Voltar
-            </button>
-        </div>
-        <div class="col-sm-2">
-            <button type="button" class="btn btn-default btn-block">
-                <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
-                Novo
-            </button>
-        </div>
-        <div class="col-sm-2">
-            <button type="submit" class="btn btn-default btn-block">
-                Próximo
-                <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span>
-            </button>
-        </div>
-    </div>
+    @include('partials.buttons')
 
     {!! Form::close() !!}
 </div>

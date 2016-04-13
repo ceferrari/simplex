@@ -2,64 +2,56 @@
 
 namespace App\Simplex\Repositories;
 
-use Illuminate\Http\Request;
-
 class HomeRepository
 {
     private $table;
     private $row;
     private $col;
     private $pivot;
+    private $solution;
 
-    public function createTable(Request $request) {
-        $variaveis = $request->get('variaveis');
-        $restricoes = $request->get('restricoes');
+    public function createTable($request) {
+        $variables = $request->get('variables');
+        $constraints = $request->get('constraints');
 
-        for ($r = 1; $r <= $restricoes; $r++) {
-            for ($v = 1; $v <= $variaveis; $v++) {
+        for ($r = 1; $r <= $constraints; $r++) {
+            for ($v = 1; $v <= $variables; $v++) {
                 $this->table['f'.$r]['x'.$v] = $request->get('r'.$r.'x'.$v);
             }
-
-            for ($f = 1; $f <= $restricoes; $f++) {
+            for ($f = 1; $f <= $constraints; $f++) {
                 $this->table['f'.$r]['f'.$f] = ($f == $r) ? "1" : "0";
             }
-
             $this->table['f'.$r]['b'] = $request->get('b'.$r);
         }
 
-        for ($v = 1; $v <= $variaveis; $v++) {
+        for ($v = 1; $v <= $variables; $v++) {
             $this->table['Z']['x'.$v] = strval($request->get('x'.$v) * -1);
         }
-
-        for ($f = 1; $f <= $restricoes; $f++) {
+        for ($f = 1; $f <= $constraints; $f++) {
             $this->table['Z']['f'.$f] = "0";
         }
-
         $this->table['Z']['b'] = "0";
 
         return $this->table;
     }
 
-    public function getTable() {
-        return $this->table;
-    }
-
-    public function solution() {
+    public function solution($table, $iterations) {
+        $this->table = $table;
         $min = min($this->table['Z']);
-        $solution = null;
+        $count = 0;
 
-        while ($min < 0) {
+        while ($min < 0 && $count++ < $iterations) {
             $this->execute();
             $min = min($this->table['Z']);
         }
 
         foreach ($this->table as $key => $row) {
-            if ($row['b'] != 0) {
-                $solution[$key] = $row['b'];
+            if ($row['b'] > 0 && !preg_match('/f/', $key)) {
+                $this->solution[$key] = $row['b'];
             }
         }
 
-        return $solution;
+        return $this->solution;
     }
 
     public function execute() {
@@ -94,7 +86,6 @@ class HomeRepository
     private function switchRowCol() {
         $keys = array_keys($this->table);
         $index = array_search($this->row, $keys);
-
         $keys[$index] = $this->col;
 
         $this->table = array_combine($keys, $this->table);

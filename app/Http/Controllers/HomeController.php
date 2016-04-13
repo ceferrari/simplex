@@ -19,30 +19,40 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function back(Request $request) {
-        return back();
-    }
-
     public function variables(Request $request) {
-        $variaveis = $request->get('variaveis');
-        $restricoes = $request->get('restricoes');
+        $variables = $request->get('variables');
+        $constraints = $request->get('constraints');
+        $iterations = $request->get('iterations');
 
-        return view('home', compact('variaveis', 'restricoes'));
+        \Session::set('variables', $variables);
+        \Session::set('constraints', $constraints);
+        \Session::set('iterations', $iterations);
+
+        return view('home', compact('variables', 'constraints', 'iterations'));
     }
 
     public function table(Request $request) {
-        $tabela = $this->repository->createTable($request);
+        $table = $this->repository->createTable($request);
 
-        // $this->repository->execute();
-        // $this->repository->execute();
-        // dd($this->repository->getTable());
+        \Session::set('table', $table);
 
-        return view('home', compact('tabela'));
+        return view('home', compact('table'));
     }
 
     public function solution() {
-        $solution = $this->repository->solution();
+        $table = \Session::get('table');
+        $iterations = \Session::get('iterations');
+        $solution = $this->repository->solution($table, $iterations);
+        uksort($solution, array($this, "cmp"));
+
+        \Session::set('solution', $solution);
 
         return view('home', compact('solution'));
+    }
+
+    private function cmp($a, $b) {
+        $a = preg_replace('/f/', 'y', $a);
+        $b = preg_replace('/f/', 'y', $b);
+        return strcasecmp($a, $b);
     }
 }
