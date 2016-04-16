@@ -25,10 +25,3 @@
         </button>
     </div>
 </div>
-
-<script type='text/javascript'>
-var name = location.pathname.split('/').slice(-1)[0];
-if (name == 'variables' || name == 'solution') {
-    document.getElementById("solucao").className += " disabled";
-}
-</script>

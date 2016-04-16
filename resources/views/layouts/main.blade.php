@@ -15,7 +15,7 @@
                     <div class="thumbnail">
                         @yield('content')
                     </div>
-                    <h6 class="text-right"><b>SIMPLEX by Carlos Eduardo Ferrari</b></h6>
+                    <h6 class="text-right"><b>SIMPLEX by Carlos Ferrari, Cíntia Akutagawa e Nathalia Yokota</b></h6>
                 </div>
             </div>
         </div>

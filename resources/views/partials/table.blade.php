@@ -1,7 +1,7 @@
 <div class="form text-center">
-    {!! Form::open(['action' => 'HomeController@solution']) !!}
+    {!! Form::open(['action' => 'HomeController@table']) !!}
 
-    <h3><b>Tabela:</b></h3>
+    <h2><b>Tabela:</b></h2>
     <hr class="separator" />
     <table class="table table-hover">
         <thead>

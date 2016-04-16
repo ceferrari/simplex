@@ -1,39 +1,43 @@
 <div class="form-horizontal">
-    {!! Form::open(['action' => 'HomeController@variables']) !!}
+    {!! Form::open(['action' => 'HomeController@settings']) !!}
 
     <h2><b>Definições</b></h2>
     <hr class="divider">
 
     <div class="form-group">
         <h4>
-            <label for="variables" class="control-label col-md-5 col-md-offset-2">Número de variáveis:</label>
+            <label for="variables" class="control-label">Número de variáveis:</label>
         </h4>
-        <div class="col-md-1">
+        <div class="col-md-2 col-md-offset-5">
             <input type="number" name="variables" id="variables" class="form-control" value="1" min="1" max="20" required>
         </div>
     </div>
     <div class="form-group">
         <h4>
-            <label for="variables" class="control-label col-md-5 col-md-offset-2">Número de restrições:</label>
+            <label for="variables" class="control-label">Número de restrições:</label>
         </h4>
-        <div class="col-md-1">
+        <div class="col-md-2 col-md-offset-5">
             <input type="number" name="constraints" id="constraints" class="form-control" value="1" min="1" max="20" required>
         </div>
     </div>
     <div class="form-group">
         <h4>
-            <label for="variables" class="control-label col-md-5 col-md-offset-2">Número máximo de iterações:</label>
+            <label for="variables" class="control-label">Número máximo de iterações:</label>
         </h4>
-        <div class="col-md-1">
+        <div class="col-md-2 col-md-offset-5">
             <input type="number" name="iterations" id="iterations" class="form-control" value="10" min="1" max="20" required>
         </div>
     </div>
-    <div class="form-group btn-group" data-toggle="buttons">
-        <h4 class="btn btn-default btn-lg active">
-            <input type="radio" name="maximizar" id="maximizar" autocomplete="off" checked>Maximizar
+    <div class="form-group btn-group mtop" data-toggle="buttons" id="operations">
+        <input type="hidden" name="operation" id="operation" value="maximize" />
+        <h4 class="btn btn-default">
+            <input type="radio" value="minimize" autocomplete="off"><b>&nbsp;&nbsp;Minimizar&nbsp;&nbsp;</b>
         </h4>
-        <h4 class="btn btn-default btn-lg">
-            <input type="radio" name="minimizar" id="minimizar" autocomplete="off">Minimizar
+        <h4 class="btn btn-default">
+            <input type="radio" value="sensitivity" autocomplete="off"><b>Sensibilidade</b>
+        </h4>
+        <h4 class="btn btn-default active">
+            <input type="radio" value="maximize" autocomplete="off"><b>&nbsp;&nbsp;Maximizar&nbsp;&nbsp;</b>
         </h4>
     </div>
 
