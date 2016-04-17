@@ -38,7 +38,10 @@ h6 {
     text-align: center;
 }
 .table-solution th {
-    min-width: 250px;
+    width: 250px;
+}
+.table-solution td {
+    width: 125px;
 }
 .table > thead > tr > th:first-child,
 .table > tbody > tr > td:first-child {
