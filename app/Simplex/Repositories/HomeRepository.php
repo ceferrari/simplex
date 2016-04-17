@@ -12,28 +12,27 @@ class HomeRepository
     public function createTable($request) {
         $variables = $request->get('variables');
         $constraints = $request->get('constraints');
-        $operation = $request->get('operation');
-        $multiplier = ($operation == 'maximize') ? -1 : 1;
+        $multiplier = ($request->get('operation') == 'maximize') ? -1 : 1;
 
         for ($r = 1; $r <= $constraints; $r++) {
             for ($v = 1; $v <= $variables; $v++) {
-                $this->table['f'.$r]['x'.$v] = $request->get('r'.$r.'x'.$v);
+                $table['f'.$r]['x'.$v] = $request->get('r'.$r.'x'.$v);
             }
             for ($f = 1; $f <= $constraints; $f++) {
-                $this->table['f'.$r]['f'.$f] = ($f == $r) ? "1" : "0";
+                $table['f'.$r]['f'.$f] = ($f == $r) ? "1" : "0";
             }
-            $this->table['f'.$r]['b'] = $request->get('b'.$r);
+            $table['f'.$r]['b'] = $request->get('b'.$r);
         }
 
         for ($v = 1; $v <= $variables; $v++) {
-            $this->table['Z']['x'.$v] = strval($request->get('x'.$v) * -1);
+            $table['Z']['x'.$v] = strval($request->get('x'.$v) * $multiplier);
         }
         for ($f = 1; $f <= $constraints; $f++) {
-            $this->table['Z']['f'.$f] = "0";
+            $table['Z']['f'.$f] = "0";
         }
-        $this->table['Z']['b'] = "0";
+        $table['Z']['b'] = "0";
 
-        return $this->table;
+        return $table;
     }
 
     public function solution($table, $iterations, $operation) {
