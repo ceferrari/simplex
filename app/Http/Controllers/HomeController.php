@@ -40,7 +40,8 @@ class HomeController extends Controller
     }
 
     public function postVariables(Request $request) {
-        \Session::set('table', $this->repository->createTable($request));
+        $table = $this->repository->createTable($request);
+        \Session::set('table', $table);
         return redirect('table');
     }
 
@@ -50,8 +51,8 @@ class HomeController extends Controller
     }
 
     public function postTable() {
-        \Session::set('solution', $this->repository->solution(\Session::get('table'), \Session::get('iterations'), \Session::get('operation')));
-        dd(\Session::get('solution'));
+        $solution = $this->repository->solution(\Session::get('table'), \Session::get('iterations'), \Session::get('operation'));
+        \Session::set('solution', $solution);
         return redirect('solution');
     }
 
