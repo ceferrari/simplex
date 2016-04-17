@@ -51,6 +51,7 @@ class HomeController extends Controller
 
     public function postTable() {
         \Session::set('solution', $this->repository->solution(\Session::get('table'), \Session::get('iterations'), \Session::get('operation')));
+        dd(\Session::get('solution'));
         return redirect('solution');
     }
 
