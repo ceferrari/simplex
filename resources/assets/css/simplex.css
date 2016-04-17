@@ -41,6 +41,9 @@ h6 {
 .table-solution td {
     width: 125px;
 }
+a.btn.disabled {
+    pointer-events: auto;
+}
 hr.mdivider {
     border: none;
     border-top: medium double #eee;

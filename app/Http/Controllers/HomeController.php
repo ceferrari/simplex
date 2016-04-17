@@ -16,6 +16,7 @@ class HomeController extends Controller
     }
 
     public function index() {
+        \Session::flush();
         return view('settings');
     }
 
@@ -34,7 +35,9 @@ class HomeController extends Controller
     public function getVariables() {
         $variables = \Session::get('variables');
         $constraints = \Session::get('constraints');
-        return view('variables', compact('variables', 'constraints'));
+        $iterations = \Session::get('iterations');
+        $operation = \Session::get('operation');
+        return view('variables', compact('variables', 'constraints', 'iterations', 'operation'));
     }
 
     public function postVariables(Request $request) {
@@ -48,20 +51,12 @@ class HomeController extends Controller
     }
 
     public function postTable() {
-        $solution = $this->repository->solution(\Session::get('table'), \Session::get('iterations'), \Session::get('operation'));
-        uksort($solution, array($this, "cmp"));
-        \Session::set('solution', $solution);
+        \Session::set('solution', $this->repository->solution(\Session::get('table'), \Session::get('iterations'), \Session::get('operation')));
         return redirect('solution');
     }
 
     public function getSolution() {
         $solution = \Session::get('solution');
         return view('solution', compact('solution'));
-    }
-
-    private function cmp($a, $b) {
-        $a = preg_replace('/f/', 'y', $a);
-        $b = preg_replace('/f/', 'y', $b);
-        return strcasecmp($a, $b);
     }
 }

@@ -26,7 +26,7 @@ class HomeRepository
         }
 
         for ($v = 1; $v <= $variables; $v++) {
-            $this->table['Z']['x'.$v] = strval($request->get('x'.$v) * $multiplier);
+            $this->table['Z']['x'.$v] = strval($request->get('x'.$v) * -1);
         }
         for ($f = 1; $f <= $constraints; $f++) {
             $this->table['Z']['f'.$f] = "0";
@@ -39,9 +39,8 @@ class HomeRepository
     public function solution($table, $iterations, $operation) {
         $this->table = $table;
         $min = min($this->table['Z']);
-        $count = 0;
 
-        while ($min < 0 && $count++ < $iterations) {
+        while ($min < 0 && $iterations--) {
             $this->execute();
             $min = min($this->table['Z']);
         }
@@ -53,17 +52,22 @@ class HomeRepository
         }
 
         foreach ($this->table as $key => $row) {
-            // if ($row['b'] > 0 && !preg_match('/f/', $key)) {
-                if ($key == 'Z' && $operation == 'minimize') {
-                    $solution[$key] = strval($row['b'] * -1);
-                }
-                else {
-                    $solution[$key] = $row['b'];
-                }
-            // }
+            if ($key == 'Z' && $operation == 'minimize') {
+                $solution[$key] = strval($row['b'] * -1);
+            }
+            else {
+                $solution[$key] = $row['b'];
+            }
         }
 
+        uksort($solution, array($this, 'cmp'));
         return $solution;
+    }
+
+    private function cmp($a, $b) {
+        $a = preg_replace('/f/', 'y', $a);
+        $b = preg_replace('/f/', 'y', $b);
+        return strcasecmp($a, $b);
     }
 
     public function execute() {
