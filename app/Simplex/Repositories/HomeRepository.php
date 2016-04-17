@@ -45,6 +45,8 @@ class HomeRepository
             $min = min($this->table['Z']);
         }
 
+        dd(current($this->table));
+
         foreach(current($this->table) as $key => $value) {
             if ($key != 'b') {
                 $solution[$key] = "0";
