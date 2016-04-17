@@ -16,7 +16,6 @@ class HomeController extends Controller
     }
 
     public function index() {
-        \Session::flush();
         return view('settings');
     }
 
