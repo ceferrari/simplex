@@ -1,3 +1,6 @@
+@extends('layouts.main')
+
+@section('content')
 <div class="form text-center">
     {!! Form::open([]) !!}
 
@@ -48,3 +51,4 @@
 
     {!! Form::close() !!}
 </div>
+@stop

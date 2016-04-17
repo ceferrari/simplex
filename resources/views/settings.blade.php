@@ -1,5 +1,8 @@
+@extends('layouts.main')
+
+@section('content')
 <div class="form-horizontal">
-    {!! Form::open(['action' => 'HomeController@settings']) !!}
+    {!! Form::open(['action' => 'HomeController@postSettings']) !!}
 
     <h2><b>Definições</b></h2>
     <hr class="divider">
@@ -33,9 +36,9 @@
         <h4 class="btn btn-default">
             <input type="radio" value="minimize" autocomplete="off"><b>&nbsp;&nbsp;Minimizar&nbsp;&nbsp;</b>
         </h4>
-        <h4 class="btn btn-default">
+        {{-- <h4 class="btn btn-default">
             <input type="radio" value="sensitivity" autocomplete="off"><b>Sensibilidade</b>
-        </h4>
+        </h4> --}}
         <h4 class="btn btn-default active">
             <input type="radio" value="maximize" autocomplete="off"><b>&nbsp;&nbsp;Maximizar&nbsp;&nbsp;</b>
         </h4>
@@ -53,3 +56,4 @@
 
     {!! Form::close() !!}
 </div>
+@stop

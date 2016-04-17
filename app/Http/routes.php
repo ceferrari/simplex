@@ -13,8 +13,12 @@
 
 Route::group(['prefix' => '/'], function() {
 	Route::get('', ['as' => 'home.index', 'uses' => 'HomeController@index']);
-	Route::post('/settings', ['as' => 'home.settings', 'uses' => 'HomeController@settings']);
-	Route::post('/variables', ['as' => 'home.variables', 'uses' => 'HomeController@variables']);
-	Route::post('/table', ['as' => 'home.table', 'uses' => 'HomeController@table']);
-	Route::post('/solution', ['as' => 'home.solution', 'uses' => 'HomeController@solution']);
+	Route::get('settings', ['as' => 'home.settings', 'uses' => 'HomeController@getSettings']);
+	Route::post('settings', ['as' => 'home.settings', 'uses' => 'HomeController@postSettings']);
+	Route::get('variables', ['as' => 'home.variables', 'uses' => 'HomeController@getVariables']);
+	Route::post('variables', ['as' => 'home.variables', 'uses' => 'HomeController@postVariables']);
+	Route::get('table', ['as' => 'home.table', 'uses' => 'HomeController@getTable']);
+	Route::post('table', ['as' => 'home.table', 'uses' => 'HomeController@postTable']);
+	Route::get('solution', ['as' => 'home.solution', 'uses' => 'HomeController@getSolution']);
+	Route::post('solution', ['as' => 'home.solution', 'uses' => 'HomeController@postSolution']);
 });

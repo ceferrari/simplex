@@ -1,5 +1,8 @@
+@extends('layouts.main')
+
+@section('content')
 <div class="form text-center">
-    {!! Form::open(['action' => 'HomeController@table']) !!}
+    {!! Form::open(['action' => 'HomeController@postTable']) !!}
 
     <h2><b>Tabela:</b></h2>
     <hr class="separator" />
@@ -24,3 +27,4 @@
 
     {!! Form::close() !!}
 </div>
+@stop

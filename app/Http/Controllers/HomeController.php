@@ -16,41 +16,47 @@ class HomeController extends Controller
     }
 
     public function index() {
-        return view('home');
+        return view('settings');
     }
 
-    public function settings(Request $request) {
-        $variables = $request->get('variables');
-        $constraints = $request->get('constraints');
-        $iterations = $request->get('iterations');
-        $operation = $request->get('operation');
-
-        \Session::set('variables', $variables);
-        \Session::set('constraints', $constraints);
-        \Session::set('iterations', $iterations);
-        \Session::set('operation', $operation);
-
-        return view('home', compact('variables', 'constraints', 'iterations', 'operation'));
+    public function getSettings() {
+        return view('settings');
     }
 
-    public function variables(Request $request) {
-        $table = $this->repository->createTable($request);
-
-        \Session::set('table', $table);
-
-        return view('home', compact('table'));
+    public function postSettings(Request $request) {
+        \Session::set('variables', $request->get('variables'));
+        \Session::set('constraints', $request->get('constraints'));
+        \Session::set('iterations', $request->get('iterations'));
+        \Session::set('operation', $request->get('operation'));
+        return redirect('variables');
     }
 
-    public function table() {
+    public function getVariables() {
+        $variables = \Session::get('variables');
+        $constraints = \Session::get('constraints');
+        return view('variables', compact('variables', 'constraints'));
+    }
+
+    public function postVariables(Request $request) {
+        \Session::set('table', $this->repository->createTable($request));
+        return redirect('table');
+    }
+
+    public function getTable() {
         $table = \Session::get('table');
-        $iterations = \Session::get('iterations');
-        $operation = \Session::get('operation');
-        $solution = $this->repository->solution($table, $iterations, $operation);
+        return view('table', compact('table'));
+    }
+
+    public function postTable() {
+        $solution = $this->repository->solution(\Session::get('table'), \Session::get('iterations'), \Session::get('operation'));
         uksort($solution, array($this, "cmp"));
-
         \Session::set('solution', $solution);
+        return redirect('solution');
+    }
 
-        return view('home', compact('solution'));
+    public function getSolution() {
+        $solution = \Session::get('solution');
+        return view('solution', compact('solution'));
     }
 
     private function cmp($a, $b) {
