@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="form text-center">
-        {!! Form::open([]) !!}
+        {!! Form::open(['action' => 'HomeController@postSolution']) !!}
 
         <h2><b>Solução:</b></h2>
         <hr class="separator" />

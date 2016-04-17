@@ -58,4 +58,8 @@ class HomeController extends Controller
         $solution = \Session::get('solution');
         return view('solution', compact('solution'));
     }
+
+    public function postSolution() {
+        return redirect('settings');
+    }
 }
