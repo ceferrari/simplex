@@ -38,19 +38,16 @@ class HomeRepository
 
     public function solution($table, $iterations, $operation) {
         $this->table = $table;
-        $min = min($this->table['Z']);
-
-        while ($min < 0 && $iterations--) {
-            $this->execute();
-            $min = min($this->table['Z']);
-        }
-
-        dd($this->table);
-
-        foreach(current($this->table) as $key => $value) {
+        foreach(current($table) as $key => $value) {
             if ($key != 'b') {
                 $solution[$key] = "0";
             }
+        }
+
+        $min = min($this->table['Z']);
+        while ($min < 0 && $iterations--) {
+            $this->execute();
+            $min = min($this->table['Z']);
         }
 
         foreach ($this->table as $key => $row) {
