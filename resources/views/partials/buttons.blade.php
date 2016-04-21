@@ -13,7 +13,7 @@
         </a>
     </div>
     <div class="col-md-2">
-        <a href="{{ route('home.solution') }}" class="btn btn-primary btn-block" id="solucao">
+        <a href="{{ route('home.finalSolution') }}" class="btn btn-primary btn-block" id="solucao">
             Solução&nbsp;&nbsp;
             <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
         </a>

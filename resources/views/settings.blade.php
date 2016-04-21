@@ -31,11 +31,11 @@
                 <input type="number" name="iterations" id="iterations" class="form-control" value="10" min="1" max="20" required>
             </div>
         </div>
-        <div class="form-group" data-toggle="buttons" id="operations">
+        <div class="form-group" data-toggle="buttons" id="objectives">
             <h4>
-                <label for="operation" class="control-label">Operação:</label>
+                <label for="objective" class="control-label">Objetivo:</label>
             </h4>
-            <input type="hidden" name="operation" id="operation" value="maximize" />
+            <input type="hidden" name="objective" id="objective" value="maximize" />
             <div class="btn-group">
                 <label class="btn btn-default">
                     <input type="radio" value="minimize" autocomplete="off"><b>&nbsp;&nbsp;Minimizar&nbsp;&nbsp;</b>

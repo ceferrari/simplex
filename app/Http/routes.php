@@ -21,4 +21,5 @@ Route::group(['prefix' => '/'], function() {
 	Route::post('table', ['as' => 'home.table', 'uses' => 'HomeController@postTable']);
 	Route::get('solution', ['as' => 'home.solution', 'uses' => 'HomeController@getSolution']);
 	Route::post('solution', ['as' => 'home.solution', 'uses' => 'HomeController@postSolution']);
+	Route::get('solution/final', ['as' => 'home.finalSolution', 'uses' => 'HomeController@postFinalSolution']);
 });

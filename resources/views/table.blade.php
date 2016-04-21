@@ -17,11 +17,19 @@
               @foreach ($table as $key => $row)
                   <tr>
                       <td><b>{!! $key !!}</b></td>
-                      <td>{!! implode('</td><td>', $row) !!}</td>
+                      <td class="val">{!! implode('</td><td>', $row) !!}</td>
                   </tr>
               @endforeach
           </tbody>
         </table>
+
+        <h2 class="btn-group" data-toggle="buttons">
+            <label class="btn btn-default" id="toFractions">
+                <input type="checkbox" autocomplete="off"><b>Exibir valores como frações</b>
+            </label>
+        </h2>
+
+        <h5><b>X</b> = Variável de Decisão, <b>F</b> = Variável de Folga, <b>E</b> = Variável de Excesso, <b>A</b> = Variável Artifical</h5>
 
         @include('partials.buttons')
 

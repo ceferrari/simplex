@@ -7,17 +7,18 @@
         <input type="hidden" name="variables" value="{{ $variables }}">
         <input type="hidden" name="constraints" value="{{ $constraints }}">
         <input type="hidden" name="iterations" value="{{ $iterations }}">
-        <input type="hidden" name="operation" value="{{ $operation }}">
+        <input type="hidden" name="objective" value="{{ $objective }}">
+        <input type="hidden" name="twoPhases" value="false">
 
         <h3><b>Função:</b></h3>
         <div class="form-inline">
-            @for($v = 1; $v <= $variables; $v++)
-                <label for="{{ 'x'.$v }}" class="sr-only"></label>
+            @for($i = 1; $i <= $variables; $i++)
+                <label for="{{ 'table[z][x'.$i.']' }}" class="sr-only"></label>
                 <div class="input-group">
-                    <input name="{{ 'x'.$v }}" class="form-control form-control-fixed" type="text" required>
-                    <div class="input-group-addon"><b>{{ 'x'.$v }}</b></div>
+                    <input name="{{ 'table[z][x'.$i.']' }}" class="form-control form-control-fixed" type="text" required>
+                    <div class="input-group-addon"><b>{{ 'x'.$i }}</b></div>
                 </div>
-                @if ($v < $variables)
+                @if ($i < $variables)
                     &nbsp;&nbsp;+&nbsp;&nbsp;
                 @endif
             @endfor
@@ -25,27 +26,27 @@
 
         <hr class="divider">
         <h3><b>Restrições:</b></h3>
-        @for($r = 1; $r <= $constraints; $r++)
+        @for($i = 1; $i <= $constraints; $i++)
             <div class="form-inline">
-                @for($v = 1; $v <= $variables; $v++)
-                    <label for="{{ 'r'.$r.'x'.$v }}" class="sr-only"></label>
+                @for($j = 1; $j <= $variables; $j++)
+                    <label for="{{ 'table[f'.$i.'][x'.$j.']' }}" class="sr-only"></label>
                     <div class="input-group">
-                        <input name="{{ 'r'.$r.'x'.$v }}" class="form-control form-control-fixed" type="text" required>
-                        <div class="input-group-addon"><b>{{ 'x'.$v }}</b></div>
+                        <input name="{{ 'table[f'.$i.'][x'.$j.']' }}" class="form-control form-control-fixed" type="text" required>
+                        <div class="input-group-addon"><b>{{ 'x'.$j }}</b></div>
                     </div>
-                    @if ($v < $variables)
+                    @if ($j < $variables)
                         &nbsp;&nbsp;+&nbsp;&nbsp;
                     @endif
                 @endfor
 
-                <select name="operador" class="form-control">
-                    <option value="menor"><=</option>
-                    <option value="maior">>=</option>
-                    <option value="igual">==</option>
+                <select name="{{ 'operators['.$i.']' }}" class="form-control operator">
+                    <option value="less"><=</option>
+                    <option value="greater">>=</option>
+                    <option value="equal">==</option>
                 </select>
 
-                <label for="{{ 'b'.$r }}" class="sr-only"></label>
-                <input name="{{ 'b'.$r }}" class="form-control form-control-fixed-b" type="text" required>
+                <label for="{{ 'table[f'.$i.'][B]' }}" class="sr-only"></label>
+                <input name="{{ 'table[f'.$i.'][B]' }}" class="form-control form-control-fixed-b" type="text" required>
             </div>
             <hr class="mdivider" />
         @endfor
