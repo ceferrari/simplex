@@ -33,7 +33,7 @@ class SimplexRepository
             $solution[$key] = $row['b'];
         }
         if ($request['objective'] == 'minimize') {
-            $solution['Z'] * -1;
+            $solution['Z'] *= -1;
         }
         unset($solution['b']);
         return $solution;
