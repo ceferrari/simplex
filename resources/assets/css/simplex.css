@@ -64,10 +64,10 @@ hr.mdivider:after {
         display: none;
     }
     .form-control-fixed {
-        max-width: 3em;
+        max-width: 3.5em;
     }
     .form-control-fixed-b {
-        max-width: 6em;
+        max-width: 6.5em;
     }
     .table th {
         min-width: 80px;

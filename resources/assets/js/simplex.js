@@ -46,6 +46,8 @@ $(document).ready(function() {
                 this.innerText = table[i++];
             });
         }
+        var $checkbox = $(this).find(':checkbox');
+        $checkbox.attr('checked', !$checkbox.attr('checked'));
     });
 
     function toFraction(x) {
@@ -67,6 +69,10 @@ $(document).ready(function() {
             b = 1 / (b - a);
         } while (Math.abs(x - h1 / k1) > x * tol);
         return  (k1 == 1) ? h1*neg : h1*neg + " / " + k1;
+    }
+
+    if ($("input[name='toFractionsOn']").val() == 'on') {
+        $("#toFractions").click();
     }
 
     var name = location.pathname.split('/').slice(-1)[0];

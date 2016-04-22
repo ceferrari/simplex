@@ -47,6 +47,7 @@
             </div>
         </div>
 
+        @include('partials.fractions')
         @include('partials.buttons')
 
         {!! Form::close() !!}

@@ -54,6 +54,7 @@ class HomeController extends Controller
             $table = $this->home->createTable($request->all());
         }
         $request->session()->set('twoPhases', $request->get('twoPhases'));
+        $request->session()->set('toFractions', 'on');
         $request->session()->set('table', $table);
         return redirect('table');
     }
@@ -64,6 +65,7 @@ class HomeController extends Controller
     }
 
     public function postTable(Request $request) {
+        $request->session()->set('toFractions', $request->get('toFractions'));
         if ($request->session()->get('twoPhases') == 'true') {
             $request->session()->set('twoPhases', 'false');
             $request->session()->set('table', $this->twoPhases->phaseOneStepTwo($request->session()->all()));
