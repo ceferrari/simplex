@@ -32,7 +32,9 @@ class SimplexRepository
         foreach ($this->table as $key => $row) {
             $solution[$key] = $row['b'];
         }
-        $solution['Z'] = ($request['objective'] == 'maximize') ? $this->table['Z']['b'] : $this->table['Z']['b'] * -1;
+        if ($request['objective'] == 'minimize') {
+            $solution['Z'] * -1;
+        }
         unset($solution['b']);
         return $solution;
     }

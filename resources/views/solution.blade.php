@@ -16,7 +16,7 @@
                   </thead>
                   <tbody>
                       @foreach ($solution as $key => $row)
-                          @if ($row > 0)
+                          @if ($row != 0)
                               <tr>
                                   <td>{!! $key !!}</td>
                                   <td>{!! $row !!}</td>
