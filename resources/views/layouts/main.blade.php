@@ -8,7 +8,7 @@
     <meta name="description" content="Método Simplex, em Duas Fases e com Análise de Sensibilidade">
     <meta name="keywords" content="simplex">
     <meta name="author" content="Carlos Eduardo Ferrari">
-@include('partials.styles')
+    @include('partials.styles')
 </head>
 <body>
     <main>
@@ -25,6 +25,6 @@
             </div>
         </div>
     </main>
-@include('partials.scripts')
+    @include('partials.scripts')
 </body>
 </html>
