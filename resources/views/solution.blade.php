@@ -7,7 +7,7 @@
         <h2><b>Solução:</b></h2>
         <hr class="separator" />
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 col-sm-6">
                 <table class="table table-hover table-bordered table-solution table-solution-right">
                     <thead>
                         <tr>

@@ -2,21 +2,19 @@ html, body {
     height: 100%;
 }
 h6 {
-    margin-left: 0.6em;
-    margin-right: 0.6em;
+    margin-top: 0;
 }
 .vertical-center {
     min-height: 100%;
     min-height: 100vh;
     display: flex;
-    align-items: center;
 }
 .jumbotron {
     margin-bottom: 0;
 }
 .jumbotron h1 {
     color: #ddd;
-    font-size: 10em;
+    font-size: 3em;
     text-shadow: 1px 4px 6px #eee, 0 0 1px #333, 1px 4px 6px #eee;
 }
 .form-inline {
@@ -79,5 +77,25 @@ hr.mdivider:after {
     }
     .table-solution-right {
         float: right;
+    }
+}
+@media (max-width: 768px) {
+    .parent {
+        display: flex;
+        flex-flow: column;
+        -ms-align-items: center;
+        align-items: center;
+    }
+    .a {
+        order: 4;
+    }
+    .b {
+        order: 3;
+    }
+    .c {
+        order: 2;
+    }
+    .d {
+        order: 1;
     }
 }
