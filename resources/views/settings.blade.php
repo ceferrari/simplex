@@ -3,10 +3,8 @@
 @section('content')
     <div class="form-horizontal">
         {!! Form::open(['action' => 'HomeController@postSettings']) !!}
-
         <h2><b>Definições</b></h2>
         <hr class="divider">
-
         <div class="form-group">
             <h4>
                 <label for="variables" class="control-label">Número de variáveis:</label>
@@ -45,17 +43,15 @@
                 </label>
             </div>
         </div>
-
         <hr class="divider">
-        <div class="form-group">
-            <div class="col-md-2 col-md-offset-5">
-                <button type="submit" class="btn btn-primary btn-block" id="proximo">
-                    Próximo&nbsp;&nbsp;
-                    <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span>
-                </button>
+            <div class="form-group">
+                <div class="col-md-2 col-md-offset-5">
+                    <button type="submit" class="btn btn-primary btn-block" id="proximo">
+                        Próximo&nbsp;&nbsp;
+                        <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span>
+                    </button>
+                </div>
             </div>
-        </div>
-
         {!! Form::close() !!}
     </div>
 @stop

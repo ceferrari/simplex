@@ -8,17 +8,20 @@ use App\Http\Requests;
 use App\Simplex\Repositories\HomeRepository as Home;
 use App\Simplex\Repositories\SimplexRepository as Simplex;
 use App\Simplex\Repositories\TwoPhasesRepository as TwoPhases;
+use App\Simplex\Repositories\SensitivityRepository as Sensitivity;
 
 class HomeController extends Controller
 {
     private $home;
     private $simplex;
     private $twoPhases;
+    private $Sensitivity;
 
-    public function __construct(Home $home, Simplex $simplex, TwoPhases $twoPhases) {
+    public function __construct(Home $home, Simplex $simplex, TwoPhases $twoPhases, Sensitivity $sensitivity) {
         $this->home = $home;
         $this->simplex = $simplex;
         $this->twoPhases = $twoPhases;
+        $this->sensitivity = $sensitivity;
     }
 
     public function index() {
@@ -53,6 +56,7 @@ class HomeController extends Controller
         else {
             $table = $this->home->createTable($request->all());
         }
+        $request->session()->set('columnB', array_column($request->get('table'), 'B'));
         $request->session()->set('twoPhases', $request->get('twoPhases'));
         $request->session()->set('toFractions', 'on');
         $request->session()->set('table', $table);
@@ -88,7 +92,8 @@ class HomeController extends Controller
     }
 
     public function postSolution(Request $request) {
-        return redirect('settings');
+        $request->session()->set('sensitivity', $this->sensitivity->createTable($request->session()->all()));
+        return redirect('sensitivity');
     }
 
     public function postFinalSolution(Request $request) {
@@ -97,5 +102,10 @@ class HomeController extends Controller
         }
         $request->session()->set('solution', $this->simplex->finalSolution($request->session()->all()));
         return redirect('solution');
+    }
+
+    public function getSensitivity(Request $request) {
+        $sensitivity = $request->session()->get('sensitivity');
+        return view('sensitivity', compact('sensitivity'));
     }
 }

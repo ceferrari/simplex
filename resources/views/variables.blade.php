@@ -3,13 +3,11 @@
 @section('content')
     <div class="form text-center">
         {!! Form::open(['action' => 'HomeController@postVariables']) !!}
-
         <input type="hidden" name="variables" value="{{ $variables }}">
         <input type="hidden" name="constraints" value="{{ $constraints }}">
         <input type="hidden" name="iterations" value="{{ $iterations }}">
         <input type="hidden" name="objective" value="{{ $objective }}">
         <input type="hidden" name="twoPhases" value="false">
-
         <h3><b>Função:</b></h3>
         <div class="form-inline">
             @for($i = 1; $i <= $variables; $i++)
@@ -23,7 +21,6 @@
                 @endif
             @endfor
         </div>
-
         <hr class="divider">
         <h3><b>Restrições:</b></h3>
         @for($i = 1; $i <= $constraints; $i++)
@@ -38,19 +35,16 @@
                         &nbsp;&nbsp;+&nbsp;&nbsp;
                     @endif
                 @endfor
-
                 <select name="{{ 'operators['.$i.']' }}" class="form-control operator">
                     <option value="less"><=</option>
                     <option value="greater">>=</option>
                     <option value="equal">==</option>
                 </select>
-
                 <label for="{{ 'table[f'.$i.'][B]' }}" class="sr-only"></label>
                 <input name="{{ 'table[f'.$i.'][B]' }}" class="form-control form-control-fixed-b" type="text" required>
             </div>
             <hr class="mdivider" />
         @endfor
-
         <div class="form-inline">
             <h4>
                 @for($v = 1; $v <= $variables; $v++)
@@ -62,9 +56,7 @@
                 >= 0
             </h4>
         </div>
-
         @include('partials.buttons')
-
         {!! Form::close() !!}
     </div>
 @stop

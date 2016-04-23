@@ -3,17 +3,21 @@
 @section('content')
     <div class="form text-center">
         {!! Form::open(['action' => 'HomeController@postTable']) !!}
-        <h2><b>Tabela:</b></h2>
+        <h2><b>Análise de Sensibilidade:</b></h2>
         <hr class="separator" />
-        <table class="table table-hover table-table">
+        <table class="table table-hover table-sensitivity">
             <thead>
                 <tr>
-                    <th>Base</th>
-                    <th>{!! implode('</th><th>', array_keys(current($table))) !!}</th>
+                    <th>Recurso</th>
+                    <th>Valor Original</th>
+                    <th>Valor Excedente</th>
+                    <th>Preço Sombra</th>
+                    <th>Limite Inferior</th>
+                    <th>Limite Superior</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($table as $key => $row)
+                @foreach ($sensitivity as $key => $row)
                     <tr>
                         <td><b>{!! $key !!}</b></td>
                         <td>{!! implode('</td><td>', $row) !!}</td>

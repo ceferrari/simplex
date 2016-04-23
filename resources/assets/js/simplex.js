@@ -1,11 +1,11 @@
 $(document).ready(function() {
-    $("input[type=text]").keydown(function (e) {
+    $("input[type=text]").keydown(function(e) {
         if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 109, 110, 190]) !== -1 ||
             (e.keyCode == 65 && e.ctrlKey === true) ||
             (e.keyCode == 67 && e.ctrlKey === true) ||
             (e.keyCode == 88 && e.ctrlKey === true) ||
             (e.keyCode >= 35 && e.keyCode <= 39)) {
-                 return;
+            return;
         }
         if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
             e.preventDefault();
@@ -35,12 +35,11 @@ $(document).ready(function() {
         if (!$(this).hasClass('active')) {
             $("td").each(function() {
                 var n = Number(this.innerText);
-                if (n === +n && n !== (n|0)) {
+                if (n === +n && n !== (n | 0)) {
                     this.innerText = toFraction(n);
                 }
             });
-        }
-        else {
+        } else {
             var i = 0;
             $("td").each(function() {
                 this.innerText = table[i++];
@@ -68,7 +67,7 @@ $(document).ready(function() {
             k1 = [a * k1 + k2, k2 = k1][0];
             b = 1 / (b - a);
         } while (Math.abs(x - h1 / k1) > x * tol);
-        return  (k1 == 1) ? h1*neg : h1*neg + " / " + k1;
+        return (k1 == 1) ? h1 * neg : h1 * neg + " / " + k1;
     }
 
     if ($("input[name='toFractionsOn']").val() == 'on') {

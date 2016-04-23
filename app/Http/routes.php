@@ -22,4 +22,5 @@ Route::group(['prefix' => '/'], function() {
 	Route::get('solution', ['as' => 'home.solution', 'uses' => 'HomeController@getSolution']);
 	Route::post('solution', ['as' => 'home.solution', 'uses' => 'HomeController@postSolution']);
 	Route::get('solution/final', ['as' => 'home.finalSolution', 'uses' => 'HomeController@postFinalSolution']);
+	Route::get('sensitivity', ['as' => 'home.sensitivity', 'uses' => 'HomeController@getSensitivity']);
 });

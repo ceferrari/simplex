@@ -1,7 +1,9 @@
 @extends('layouts.main')
 
 @section('content')
-    @if(isset($solution))
+    @if(isset($sensitivity))
+        @include('partials.sensitivity')
+    @elseif(isset($solution))
         @include('partials.solution')
     @elseif(isset($table))
         @include('partials.table')
