@@ -56,6 +56,7 @@ class HomeController extends Controller
         $request->session()->set('toFractions', 'on');
         $request->session()->set('table', $request->get('table'));
         $request->session()->set('columnB', array_column($request->get('table'), 'B'));
+        $request->session()->set('operators', $request->get('operators'));
         $request->session()->set('twoPhases', $request->get('twoPhases'));
         if ($request->get('twoPhases') == 'true') {
             $request->session()->set('twoPhasesZ', $request->get('table')['z']);
@@ -91,7 +92,6 @@ class HomeController extends Controller
     }
 
     public function postFinalSolution(Request $request) {
-        $request->session()->set('toFractions', $request->get('toFractions'));
         if ($request->session()->get('twoPhases') == 'true') {
             $request->session()->set('table', $this->twoPhases->phaseOneStepTwo());
         }

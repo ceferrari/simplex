@@ -51,6 +51,7 @@
                 >= 0
             </h4>
         </div>
+        <input type="hidden" name="twoPhases" value="false">
         @include('partials.buttons')
         {!! Form::close() !!}
     </div>
