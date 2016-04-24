@@ -13,9 +13,9 @@ class TwoPhasesRepository
 
     public function __construct(Home $home) {
         $this->home = $home;
-        $this->table = \Request::session()->get('table');
-        $this->operators = \Request::session()->get('operators');
-        $this->twoPhasesZ = \Request::session()->get('twoPhasesZ');
+        $this->table = \Session::get('table');
+        $this->operators = \Session::get('operators');
+        $this->twoPhasesZ = \Session::get('twoPhasesZ');
     }
 
     public function phaseOneStepOne() {
@@ -31,7 +31,7 @@ class TwoPhasesRepository
             }
         }
         $table['z'] = $this->table['z'];
-        \Request::session()->set('table', $table);
+        \Session::set('table', $table);
         $table = $this->home->createTable();
         foreach ($this->operators as $key => $value) {
             if ($value == 'greater') {

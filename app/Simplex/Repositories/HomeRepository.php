@@ -5,8 +5,8 @@ namespace App\Simplex\Repositories;
 class HomeRepository
 {
     public function createTable() {
-        $objective = \Request::session()->get('objective');
-        $table = \Request::session()->get('table');
+        $objective = \Session::get('objective');
+        $table = \Session::get('table');
         $table['z']['B'] = 0;
         foreach ($table as $row => $vRow) {
             foreach ($table as $col => $vCol) {

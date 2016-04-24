@@ -16,9 +16,9 @@ class SimplexRepository
 
     public function __construct(TwoPhases $twoPhases) {
         $this->twoPhases = $twoPhases;
-        $this->table = \Request::session()->get('table');
-        $this->iterations = \Request::session()->get('iterations');
-        $this->objective = \Request::session()->get('objective');
+        $this->table = \Session::get('table');
+        $this->iterations = \Session::get('iterations');
+        $this->objective = \Session::get('objective');
     }
 
     public function solution() {
@@ -31,7 +31,7 @@ class SimplexRepository
             $this->table = $this->twoPhases->phaseTwo($this->table);
             //$this->iterate(false);
         }
-        $solution = array_fill_keys(array_keys(current($this->table)), 0);
+        $solution = array_fill_keys(array_keys($this->table['Z']), 0);
         foreach ($this->table as $key => $row) {
             $solution[$key] = $row['b'];
         }
@@ -45,7 +45,7 @@ class SimplexRepository
     private function iterate($return) {
         $min = min($this->table['Z']);
         while ($min < 0 && $this->iterations--) {
-            \Request::session()->set('iterations', $this->iterations);
+            \Session::set('iterations', $this->iterations);
             $this->execute();
             $min = min($this->table['Z']);
             if ($return) {

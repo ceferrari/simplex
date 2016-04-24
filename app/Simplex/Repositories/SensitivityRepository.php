@@ -8,8 +8,8 @@ class SensitivityRepository
     private $columnB;
 
     public function __construct() {
-        $this->table = \Request::session()->get('table');
-        $this->columnB = \Request::session()->get('columnB');
+        $this->table = \Session::get('table');
+        $this->columnB = \Session::get('columnB');
     }
 
     public function createTable() {
