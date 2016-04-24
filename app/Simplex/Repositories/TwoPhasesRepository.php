@@ -6,13 +6,11 @@ use App\Simplex\Repositories\HomeRepository as Home;
 
 class TwoPhasesRepository
 {
-    private $home;
     private $table;
     private $operators;
     private $twoPhasesZ;
 
-    public function __construct(Home $home) {
-        $this->home = $home;
+    public function __construct() {
         $this->table = \Session::get('table');
         $this->operators = \Session::get('operators');
         $this->twoPhasesZ = \Session::get('twoPhasesZ');
@@ -32,7 +30,7 @@ class TwoPhasesRepository
         }
         $table['z'] = $this->table['z'];
         \Session::set('table', $table);
-        $table = $this->home->createTable();
+        $table = (new Home())->createTable();
         foreach ($this->operators as $key => $value) {
             if ($value == 'greater') {
                 $table['a'.$key]['e'.$key] = -1;

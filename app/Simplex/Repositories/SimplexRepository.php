@@ -6,7 +6,6 @@ use App\Simplex\Repositories\TwoPhasesRepository as TwoPhases;
 
 class SimplexRepository
 {
-    private $twoPhases;
     private $table;
     private $row;
     private $col;
@@ -14,8 +13,7 @@ class SimplexRepository
     private $iterations;
     private $objective;
 
-    public function __construct(TwoPhases $twoPhases) {
-        $this->twoPhases = $twoPhases;
+    public function __construct() {
         $this->table = \Session::get('table');
         $this->iterations = \Session::get('iterations');
         $this->objective = \Session::get('objective');
@@ -27,8 +25,9 @@ class SimplexRepository
 
     public function finalSolution() {
         $this->iterate(false);
-        if ($this->twoPhases->isOptimal($this->table)) {
-            $this->table = $this->twoPhases->phaseTwo($this->table);
+        $twoPhases = new TwoPhases();
+        if ($twoPhases->isOptimal($this->table)) {
+            $this->table = $twoPhases->phaseTwo($this->table);
             //$this->iterate(false);
         }
         \Session::set('table', $this->table);
