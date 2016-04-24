@@ -11,38 +11,41 @@ class SimplexRepository
     private $row;
     private $col;
     private $pivot;
+    private $iterations;
+    private $objective;
 
     public function __construct(TwoPhases $twoPhases) {
         $this->twoPhases = $twoPhases;
+        $this->table = \Request::session()->get('table');
+        $this->iterations = \Request::session()->get('iterations');
+        $this->objective = \Request::session()->get('objective');
     }
 
-    public function solution($request) {
-        $return = $this->iterate($request, true);
-        return ($return == true) ? $this->table : $this->finalSolution($request);
+    public function solution() {
+        return $this->iterate(true) ? $this->table : $this->finalSolution();
     }
 
-    public function finalSolution($request) {
-        $this->iterate($request, false);
+    public function finalSolution() {
+        $this->iterate(false);
         if ($this->twoPhases->isOptimal($this->table)) {
-            $request['table'] = $this->table;
-            $this->table = $this->twoPhases->phaseTwo($request);
-            //$this->iterate($request, false);
+            $this->table = $this->twoPhases->phaseTwo($this->table);
+            //$this->iterate(false);
         }
         $solution = array_fill_keys(array_keys(current($this->table)), 0);
         foreach ($this->table as $key => $row) {
             $solution[$key] = $row['b'];
         }
-        if ($request['objective'] == 'minimize') {
+        if ($this->objective == 'minimize') {
             $solution['Z'] *= -1;
         }
         unset($solution['b']);
         return $solution;
     }
 
-    private function iterate($request, $return) {
-        $this->table = $request['table'];
+    private function iterate($return) {
         $min = min($this->table['Z']);
-        while ($min < 0 && $request['iterations']--) {
+        while ($min < 0 && $this->iterations--) {
+            \Request::session()->set('iterations', $this->iterations);
             $this->execute();
             $min = min($this->table['Z']);
             if ($return) {

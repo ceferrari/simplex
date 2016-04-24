@@ -7,27 +7,33 @@ use App\Simplex\Repositories\HomeRepository as Home;
 class TwoPhasesRepository
 {
     private $home;
+    private $table;
+    private $operators;
+    private $twoPhasesZ;
 
     public function __construct(Home $home) {
         $this->home = $home;
+        $this->table = \Request::session()->get('table');
+        $this->operators = \Request::session()->get('operators');
+        $this->twoPhasesZ = \Request::session()->get('twoPhasesZ');
     }
 
-    public function phaseOneStepOne($request) {
-        foreach ($request['operators'] as $key => $value) {
+    public function phaseOneStepOne() {
+        foreach ($this->operators as $key => $value) {
             if ($value == 'less') {
-                $table['f'.$key] = $request['table']['f'.$key];
+                $table['f'.$key] = $this->table['f'.$key];
             }
             if ($value == 'greater') {
-                $table['e'.$key] = $request['table']['f'.$key];
+                $table['e'.$key] = $this->table['f'.$key];
             }
             if ($value == 'equal' || $value == 'greater') {
-                $table['a'.$key] = $request['table']['f'.$key];
+                $table['a'.$key] = $this->table['f'.$key];
             }
         }
-        $table['z'] = $request['table']['z'];
-        $request['table'] = $table;
-        $table = $this->home->createTable($request);
-        foreach ($request['operators'] as $key => $value) {
+        $table['z'] = $this->table['z'];
+        \Request::session()->set('table', $table);
+        $table = $this->home->createTable();
+        foreach ($this->operators as $key => $value) {
             if ($value == 'greater') {
                 $table['a'.$key]['e'.$key] = -1;
                 unset($table['e'.$key]);
@@ -42,19 +48,18 @@ class TwoPhasesRepository
         return $table;
     }
 
-    public function phaseOneStepTwo($request) {
-        $table = $request['table'];
-        foreach ($table as $row => $vRow) {
+    public function phaseOneStepTwo() {
+        foreach ($this->table as $row => $vRow) {
             if (preg_match('/a/', $row)) {
-                foreach ($table[$row] as $col => $vCol) {
-                    $table['Z'][$col] += $vCol;
+                foreach ($this->table[$row] as $col => $vCol) {
+                    $this->table['Z'][$col] += $vCol;
                 }
             }
         }
-        foreach ($table['Z'] as $key => $value) {
-            $table['Z'][$key] *= -1;
+        foreach ($this->table['Z'] as $key => $value) {
+            $this->table['Z'][$key] *= -1;
         }
-        return $table;
+        return $this->table;
     }
 
     public function isOptimal($table) {
@@ -67,16 +72,15 @@ class TwoPhasesRepository
         return (min($table['Z']) >= 0 && $hasArtifical);
     }
 
-    public function phaseTwo($request) {
-        $table = $this->phaseTwoStepOne($request['table'], $request['twoPhasesZ']);
-        return $this->phaseTwoStepTwo($table);
+    public function phaseTwo($table) {
+        return $this->phaseTwoStepTwo($this->phaseTwoStepOne($table));
     }
 
-    private function phaseTwoStepOne($table, $z) {
+    private function phaseTwoStepOne($table) {
         foreach ($table as $row => $vRow) {
             foreach ($table[$row] as $col => $vCol) {
                 if (preg_match('/x/', $col) && $row == 'Z') {
-                    $table['Z'][$col] = $z[$col] * -1;
+                    $table['Z'][$col] = $this->twoPhasesZ[$col] * -1;
                 }
                 if (preg_match('/a/', $col)) {
                     unset($table[$row][$col]);

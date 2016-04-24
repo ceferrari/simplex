@@ -26,7 +26,7 @@
                 <label for="variables" class="control-label">Número máximo de iterações:</label>
             </h4>
             <div class="col-md-2 col-md-offset-5">
-                <input type="number" name="iterations" id="iterations" class="form-control" value="10" min="1" max="20" required>
+                <input type="number" name="iterations" id="iterations" class="form-control" value="10" min="1" max="999" required>
             </div>
         </div>
         <div class="form-group" data-toggle="buttons" id="objectives">

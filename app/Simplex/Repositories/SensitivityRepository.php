@@ -4,17 +4,24 @@ namespace App\Simplex\Repositories;
 
 class SensitivityRepository
 {
-    public function createTable($request) {
-        $table = $request['table'];
-        foreach ($table['Z'] as $key => $value) {
+    private $table;
+    private $columnB;
+
+    public function __construct() {
+        $this->table = \Request::session()->get('table');
+        $this->columnB = \Request::session()->get('columnB');
+    }
+
+    public function createTable() {
+        foreach ($this->table['Z'] as $key => $value) {
             if (preg_match('/f/', $key) || preg_match('/e/', $key)) {
-                $aux = $request['columnB'][substr($key, -1)-1];
-                $bounds = $this->calcBounds($table, $key);
+                $aux = $this->columnB[substr($key, -1)-1];
+                $bounds = $this->calcBounds($this->table, $key);
                 $sensitivity[$key]['ov'] = $aux;
-                $sensitivity[$key]['ev'] = (isset($table[$key]) ? $table[$key]['b'] : 0);
+                $sensitivity[$key]['ev'] = (isset($this->table[$key]) ? $this->table[$key]['b'] : 0);
                 $sensitivity[$key]['sp'] = $value;
                 $sensitivity[$key]['lb'] = $aux + $bounds['lower'];
-                $sensitivity[$key]['ub'] = (isset($table[$key])) ? '∞' : $aux + $bounds['upper'];
+                $sensitivity[$key]['ub'] = (isset($this->table[$key])) ? '∞' : $aux + $bounds['upper'];
             }
         }
         return $sensitivity;

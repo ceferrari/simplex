@@ -3,11 +3,6 @@
 @section('content')
     <div class="form text-center">
         {!! Form::open(['action' => 'HomeController@postVariables']) !!}
-        <input type="hidden" name="variables" value="{{ $variables }}">
-        <input type="hidden" name="constraints" value="{{ $constraints }}">
-        <input type="hidden" name="iterations" value="{{ $iterations }}">
-        <input type="hidden" name="objective" value="{{ $objective }}">
-        <input type="hidden" name="twoPhases" value="false">
         <h3><b>Função:</b></h3>
         <div class="form-inline">
             @for($i = 1; $i <= $variables; $i++)

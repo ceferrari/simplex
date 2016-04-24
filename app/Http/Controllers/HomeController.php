@@ -24,12 +24,24 @@ class HomeController extends Controller
         $this->sensitivity = $sensitivity;
     }
 
-    public function index() {
+    public function getSettings(Request $request) {
         return view('settings');
     }
 
-    public function getSettings() {
-        return view('settings');
+    public function getVariables(Request $request) {
+        return view('variables')->with($request->session()->all());
+    }
+
+    public function getTable(Request $request) {
+        return view('table')->with('table', $request->session()->get('table'));
+    }
+
+    public function getSolution(Request $request) {
+        return view('solution')->with('solution', $request->session()->get('solution'));
+    }
+
+    public function getSensitivity(Request $request) {
+        return view('sensitivity')->with('sensitivity', $request->session()->get('sensitivity'));
     }
 
     public function postSettings(Request $request) {
@@ -40,44 +52,30 @@ class HomeController extends Controller
         return redirect('variables');
     }
 
-    public function getVariables(Request $request) {
-        $variables = $request->session()->get('variables');
-        $constraints = $request->session()->get('constraints');
-        $iterations = $request->session()->get('iterations');
-        $objective = $request->session()->get('objective');
-        return view('variables', compact('variables', 'constraints', 'iterations', 'objective'));
-    }
-
     public function postVariables(Request $request) {
-        if ($request->get('twoPhases') == 'true') {
-            $request->session()->set('twoPhasesZ', $request->get('table')['z']);
-            $table = $this->twoPhases->phaseOneStepOne($request->all());
-        }
-        else {
-            $table = $this->home->createTable($request->all());
-        }
+        $request->session()->set('toFractions', 'on');
+        $request->session()->set('table', $request->get('table'));
         $request->session()->set('columnB', array_column($request->get('table'), 'B'));
         $request->session()->set('twoPhases', $request->get('twoPhases'));
-        $request->session()->set('toFractions', 'on');
+        if ($request->get('twoPhases') == 'true') {
+            $request->session()->set('twoPhasesZ', $request->get('table')['z']);
+            $table = $this->twoPhases->phaseOneStepOne();
+        }
+        else {
+            $table = $this->home->createTable();
+        }
         $request->session()->set('table', $table);
         return redirect('table');
-    }
-
-    public function getTable(Request $request) {
-        $table = $request->session()->get('table');
-        return view('table', compact('table'));
     }
 
     public function postTable(Request $request) {
         $request->session()->set('toFractions', $request->get('toFractions'));
         if ($request->session()->get('twoPhases') == 'true') {
             $request->session()->set('twoPhases', 'false');
-            $request->session()->set('table', $this->twoPhases->phaseOneStepTwo($request->session()->all()));
+            $request->session()->set('table', $this->twoPhases->phaseOneStepTwo());
             return redirect('table');
         }
-        $table = $this->simplex->solution($request->session()->all());
-        $iterations = $request->session()->get('iterations');
-        $request->session()->set('iterations', --$iterations);
+        $table = $this->simplex->solution();
         if (is_array(current($table))) {
             $request->session()->set('table', $table);
             return redirect('table');
@@ -86,26 +84,18 @@ class HomeController extends Controller
         return redirect('solution');
     }
 
-    public function getSolution(Request $request) {
-        $solution = $request->session()->get('solution');
-        return view('solution', compact('solution'));
-    }
-
     public function postSolution(Request $request) {
-        $request->session()->set('sensitivity', $this->sensitivity->createTable($request->session()->all()));
+        $request->session()->set('toFractions', $request->get('toFractions'));
+        $request->session()->set('sensitivity', $this->sensitivity->createTable());
         return redirect('sensitivity');
     }
 
     public function postFinalSolution(Request $request) {
+        $request->session()->set('toFractions', $request->get('toFractions'));
         if ($request->session()->get('twoPhases') == 'true') {
-            $request->session()->set('table', $this->twoPhases->phaseOneStepTwo($request->session()->all()));
+            $request->session()->set('table', $this->twoPhases->phaseOneStepTwo());
         }
-        $request->session()->set('solution', $this->simplex->finalSolution($request->session()->all()));
+        $request->session()->set('solution', $this->simplex->finalSolution());
         return redirect('solution');
-    }
-
-    public function getSensitivity(Request $request) {
-        $sensitivity = $request->session()->get('sensitivity');
-        return view('sensitivity', compact('sensitivity'));
     }
 }

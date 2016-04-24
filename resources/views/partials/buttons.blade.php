@@ -7,7 +7,7 @@
         </a>
     </div>
     <div class="b col-xs-6 col-sm-2 col-md-2">
-        <a href="{{ route('home.index') }}" class="btn btn-primary btn-block" id="novo">
+        <a href="{{ route('home.settings') }}" class="btn btn-primary btn-block" id="novo">
             <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
             &nbsp;&nbsp;Novo
         </a>
