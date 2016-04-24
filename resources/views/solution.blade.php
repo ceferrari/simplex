@@ -4,8 +4,8 @@
     {!! Form::open(['action' => 'HomeController@postSolution', 'class' => 'form text-center']) !!}
         <h2><b>Solução:</b></h2>
         <hr class="separator" />
+        @if (Session::get('hasSolution') == 'true')
         <div class="row">
-            @if (Session::get('hasSolution') == 'true')
             <div class="col-md-6 col-sm-6">
                 <table class="table table-hover table-bordered table-solution table-solution-right">
                     <thead>
@@ -43,12 +43,12 @@
                     @endforeach
                     </tbody>
                 </table>
-            </div>
-            @include('partials.fractions')
-            @else
-            <h2 id="noSolution">Não existe uma solução possível para o problema.</h2>
-            @endif
+            </div>    
         </div>
+        @include('partials.fractions')
+        @else
+        <h2 id="noSolution">Não existe uma solução possível para o problema.</h2>
+        @endif
         @include('partials.buttons')
     {!! Form::close() !!}
 @stop
