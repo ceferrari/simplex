@@ -31,6 +31,7 @@ class SimplexRepository
             $this->table = $this->twoPhases->phaseTwo($this->table);
             //$this->iterate(false);
         }
+        \Session::set('table', $this->table);
         $solution = array_fill_keys(array_keys($this->table['Z']), 0);
         foreach ($this->table as $key => $row) {
             $solution[$key] = $row['b'];
