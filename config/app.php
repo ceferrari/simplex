@@ -157,6 +157,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Collective\Html\HtmlServiceProvider::class,
+        GrahamCampbell\HTMLMin\HTMLMinServiceProvider::class
 
     ],
 
@@ -206,6 +207,7 @@ return [
 
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        'HTMLMin' => GrahamCampbell\HTMLMin\Facades\HTMLMin::class
 
     ],
 

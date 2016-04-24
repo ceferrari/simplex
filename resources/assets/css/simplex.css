@@ -4,6 +4,9 @@ html, body {
 h6 {
     margin-top: 0;
 }
+.mtop {
+    margin-top: 2em;
+}
 .vertical-center {
     min-height: 100%;
     min-height: 100vh;
