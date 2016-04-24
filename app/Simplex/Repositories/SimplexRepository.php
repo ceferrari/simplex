@@ -64,9 +64,12 @@ class SimplexRepository
     }
 
     private function findColumn() {
-        $z = $this->table['Z'];
-        unset($z['b']);
-        $this->col = array_search(min($z), $z);
+        $z = array_diff($this->table['Z'], ['b' => $this->table['Z']['b']]);
+        $min = min($z);
+        if ($min >= 0) {
+            \Session::set('hasSolution', 'false');
+        }
+        $this->col = array_search($min, $z);
     }
 
     private function findRowAndPivot() {

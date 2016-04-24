@@ -15,7 +15,7 @@ h6 {
 .jumbotron h1 {
     color: #ddd;
     font-size: 3em;
-    text-shadow: 1px 4px 6px #eee, 0 0 1px #333, 1px 4px 6px #eee;
+    text-shadow: 1px 1px 2px #fff, 0 0 1px #333, 1px 3px 1px #fff;
 }
 .form-inline {
     margin-bottom: 1em;

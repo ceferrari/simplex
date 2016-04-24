@@ -1,8 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="form-horizontal">
-        {!! Form::open(['action' => 'HomeController@postSettings']) !!}
+    {!! Form::open(['action' => 'HomeController@postSettings', 'class' => 'form-horizontal']) !!}
         <h2><b>Definições</b></h2>
         <hr class="divider">
         <div class="form-group">
@@ -26,7 +25,7 @@
                 <label for="variables" class="control-label">Número máximo de iterações:</label>
             </h4>
             <div class="col-md-2 col-md-offset-5">
-                <input type="number" name="iterations" id="iterations" class="form-control" value="10" min="1" max="999" required>
+                <input type="number" name="iterations" id="iterations" class="form-control" value="50" min="1" max="999" required>
             </div>
         </div>
         <div class="form-group" data-toggle="buttons" id="objectives">
@@ -44,14 +43,13 @@
             </div>
         </div>
         <hr class="divider">
-            <div class="form-group">
-                <div class="col-md-2 col-md-offset-5">
-                    <button type="submit" class="btn btn-primary btn-block" id="proximo">
-                        Próximo&nbsp;&nbsp;
-                        <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span>
-                    </button>
-                </div>
+        <div class="form-group">
+            <div class="col-md-2 col-md-offset-5">
+                <button type="submit" class="btn btn-primary btn-block" id="proximo">
+                    Próximo&nbsp;&nbsp;
+                    <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span>
+                </button>
             </div>
-        {!! Form::close() !!}
-    </div>
+        </div>
+    {!! Form::close() !!}
 @stop

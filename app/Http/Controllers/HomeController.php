@@ -42,6 +42,7 @@ class HomeController extends Controller
 
     public function postVariables(Request $request) {
         $request->session()->set('toFractions', 'on');
+        $request->session()->set('hasSolution', 'true');
         $request->session()->set('table', $request->get('table'));
         $request->session()->set('columnB', array_column($request->get('table'), 'B'));
         $request->session()->set('operators', $request->get('operators'));
@@ -65,7 +66,7 @@ class HomeController extends Controller
             return redirect('table');
         }
         $table = (new Simplex())->solution();
-        if (is_array($table['Z'])) {
+        if (is_array($table['Z']) && $request->session()->get('hasSolution') == 'true') {
             $request->session()->set('table', $table);
             return redirect('table');
         }

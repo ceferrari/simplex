@@ -1,11 +1,11 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="form text-center">
-        {!! Form::open(['action' => 'HomeController@postSolution']) !!}
+    {!! Form::open(['action' => 'HomeController@postSolution', 'class' => 'form text-center']) !!}
         <h2><b>Solução:</b></h2>
         <hr class="separator" />
         <div class="row">
+            @if (Session::get('hasSolution') == 'true')
             <div class="col-md-6 col-sm-6">
                 <table class="table table-hover table-bordered table-solution table-solution-right">
                     <thead>
@@ -14,14 +14,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($solution as $key => $row)
-                            @if ($row != 0)
-                                <tr>
-                                    <td>{!! $key !!}</td>
-                                    <td>{!! $row !!}</td>
-                                </tr>
-                            @endif
-                        @endforeach
+                    @foreach ($solution as $key => $row)
+                    @if ($row != 0)
+                        <tr>
+                            <td>{!! $key !!}</td>
+                            <td>{!! $row !!}</td>
+                        </tr>
+                    @endif
+                    @endforeach
                     </tbody>
                 </table>
             </div>
@@ -33,20 +33,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($solution as $key => $row)
-                            @if ($row == 0)
-                                <tr>
-                                    <td>{!! $key !!}</td>
-                                    <td>{!! $row !!}</td>
-                                </tr>
-                            @endif
-                        @endforeach
+                    @foreach ($solution as $key => $row)
+                    @if ($row == 0)
+                        <tr>
+                            <td>{!! $key !!}</td>
+                            <td>{!! $row !!}</td>
+                        </tr>
+                    @endif
+                    @endforeach
                     </tbody>
                 </table>
             </div>
+            @include('partials.fractions')
+            @else
+            <h2 id="noSolution">Não existe uma solução possível para o problema.</h2>
+            @endif
         </div>
-        @include('partials.fractions')
         @include('partials.buttons')
-        {!! Form::close() !!}
-    </div>
+    {!! Form::close() !!}
 @stop

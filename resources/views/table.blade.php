@@ -1,8 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="form text-center">
-        {!! Form::open(['action' => 'HomeController@postTable']) !!}
+    {!! Form::open(['action' => 'HomeController@postTable', 'class' => 'form text-center']) !!}
         <h2><b>Tabela:</b></h2>
         <hr class="separator" />
         <table class="table table-hover table-table">
@@ -13,16 +12,15 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($table as $key => $row)
-                    <tr>
-                        <td><b>{!! $key !!}</b></td>
-                        <td>{!! implode('</td><td>', $row) !!}</td>
-                    </tr>
-                @endforeach
+            @foreach ($table as $key => $row)
+                <tr>
+                    <td><b>{!! $key !!}</b></td>
+                    <td>{!! implode('</td><td>', $row) !!}</td>
+                </tr>
+            @endforeach
             </tbody>
         </table>
         @include('partials.fractions')
         @include('partials.buttons')
-        {!! Form::close() !!}
-    </div>
+    {!! Form::close() !!}
 @stop

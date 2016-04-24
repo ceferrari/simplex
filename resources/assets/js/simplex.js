@@ -78,7 +78,7 @@ $(document).ready(function() {
     if (name != 'table') {
         document.getElementById("solucao").className += " disabled";
     }
-    if (name == 'sensitivity') {
+    if (name == 'sensitivity' || $("#noSolution").length) {
         document.getElementById("proximo").className += " disabled";
     }
 });
