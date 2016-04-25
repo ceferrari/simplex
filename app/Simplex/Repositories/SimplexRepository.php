@@ -28,7 +28,8 @@ class SimplexRepository
         $twoPhases = new TwoPhases();
         if ($twoPhases->isOptimal($this->table)) {
             $this->table = $twoPhases->phaseTwo($this->table);
-            //$this->iterate(false);
+            $this->iterate(true);
+            return $this->table;
         }
         \Session::set('table', $this->table);
         $solution = array_fill_keys(array_keys($this->table['Z']), 0);
