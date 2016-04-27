@@ -7,7 +7,7 @@ $(document).ready(function() {
         $("#showMarkings").addClass("disabled");
     }
     if (name == 'sensitivity' || $("#noSolution").length) {
-        $("proximo").addClass("disabled");
+        $("#proximo").addClass("disabled");
     }
 
     $("input[type=text]").keydown(function(e) {
