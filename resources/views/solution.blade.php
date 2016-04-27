@@ -45,7 +45,7 @@
             </table>
         </div>
     </div>
-    @include('partials.fractions')
+    @include('partials.checkboxes')
     @else
     <h2 id="noSolution">Não existe uma solução possível para o problema.</h2>
     @endif

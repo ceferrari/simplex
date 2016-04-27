@@ -41,6 +41,7 @@ class HomeController extends Controller
     }
 
     public function postVariables(Request $request) {
+        $request->session()->set('showMarkings', 'on');
         $request->session()->set('toFractions', 'on');
         $request->session()->set('hasSolution', 'true');
         $request->session()->set('table', $request->get('table'));
@@ -59,6 +60,7 @@ class HomeController extends Controller
     }
 
     public function postTable(Request $request) {
+        $request->session()->set('showMarkings', $request->get('showMarkings'));
         $request->session()->set('toFractions', $request->get('toFractions'));
         if ($request->session()->get('twoPhases') == 'true') {
             $request->session()->set('twoPhases', 'false');
@@ -75,6 +77,7 @@ class HomeController extends Controller
     }
 
     public function postSolution(Request $request) {
+        $request->session()->set('showMarkings', $request->get('showMarkings'));
         $request->session()->set('toFractions', $request->get('toFractions'));
         $request->session()->set('sensitivity', (new Sensitivity())->createTable());
         return redirect('sensitivity');

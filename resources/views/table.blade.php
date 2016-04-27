@@ -20,7 +20,8 @@
         @endforeach
         </tbody>
     </table>
-    @include('partials.fractions')
+    <input type="hidden" name="twoPhases" value="{{ Session::get('twoPhases') }}">
+    @include('partials.checkboxes')
     @include('partials.buttons')
 {!! Form::close() !!}
 @stop

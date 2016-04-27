@@ -31,7 +31,6 @@ class SimplexRepository
             $this->iterate(true);
             return $this->table;
         }
-        \Session::set('table', $this->table);
         $solution = array_fill_keys(array_keys($this->table['Z']), 0);
         foreach ($this->table as $key => $row) {
             $solution[$key] = $row['b'];
@@ -46,7 +45,6 @@ class SimplexRepository
     private function iterate($return) {
         $min = min($this->table['Z']);
         while ($min < 0 && $this->iterations--) {
-            \Session::set('iterations', $this->iterations);
             $this->execute();
             $min = min($this->table['Z']);
             if ($return) {
@@ -62,14 +60,13 @@ class SimplexRepository
         $this->switchRowCol();
         $this->divByPivot();
         $this->nullifyColumn();
+        $this->setSessionValues();
     }
 
     private function findColumn() {
         $z = array_diff($this->table['Z'], ['b' => $this->table['Z']['b']]);
         $min = min($z);
-        if ($min >= 0) {
-            \Session::set('hasSolution', 'false');
-        }
+        \Session::set('hasSolution', ($min < 0 ? 'true' : 'false'));
         $this->col = array_search($min, $z);
     }
 
@@ -110,5 +107,10 @@ class SimplexRepository
                 }
             }
         }
+    }
+
+    private function setSessionValues() {
+        \Session::set('table', $this->table);
+        \Session::set('iterations', $this->iterations);
     }
 }

@@ -1,4 +1,15 @@
 $(document).ready(function() {
+    var name = location.pathname.split('/').slice(-1)[0];
+    if (name != 'table') {
+        $("#solucao").addClass("disabled");
+    }
+    if (name != 'table' || (name == 'table' && $("input[name='twoPhases']").val() == 'true')) {
+        $("#showMarkings").addClass("disabled");
+    }
+    if (name == 'sensitivity' || $("#noSolution").length) {
+        $("proximo").addClass("disabled");
+    }
+
     $("input[type=text]").keydown(function(e) {
         if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 109, 110, 190]) !== -1 ||
             (e.keyCode == 65 && e.ctrlKey === true) ||
@@ -19,7 +30,7 @@ $(document).ready(function() {
     $(".operator").on('change', function() {
         var twoPhases = false;
         $(".operator").each(function() {
-            if (this.value != 'less') {
+            if ($(this).val() != 'less') {
                 twoPhases = true;
             }
         });
@@ -27,26 +38,34 @@ $(document).ready(function() {
     });
 
     var table = new Array();
+    var fractions = new Array();
     $("td").each(function() {
-        table.push(this.innerText);
-    });
+        table.push($(this).text());
+        var n = Number($(this).text());
+        if (n === +n && n !== (n | 0)) {
+            fractions.push(toFraction(n));
+        } else {
+            fractions.push($(this).text());
+        }
+    })
 
-    $("#toFractions").on('click', function() {
+    $("#toFractions").not('.disabled').on('click', function() {
+        var i = 0;
         if (!$(this).hasClass('active')) {
             $("td").each(function() {
-                var n = Number(this.innerText);
-                if (n === +n && n !== (n | 0)) {
-                    this.innerText = toFraction(n);
-                }
+                $(this).text(fractions[i++]);
             });
         } else {
-            var i = 0;
             $("td").each(function() {
-                this.innerText = table[i++];
+                $(this).text(table[i++]);
             });
         }
-        var $checkbox = $(this).find(':checkbox');
-        $checkbox.attr('checked', !$checkbox.attr('checked'));
+        if (name == 'table') {
+            $("td:first-child").each(function() {
+                $(this).html('<b>'+$(this).text()+'</b>');
+            });
+        }
+        toggleCheckbox($(this));
     });
 
     function toFraction(x) {
@@ -70,15 +89,62 @@ $(document).ready(function() {
         return (k1 == 1) ? h1 * neg : h1 * neg + " / " + k1;
     }
 
-    if ($("input[name='toFractionsOn']").val() == 'on') {
-        $("#toFractions").click();
+    $("#showMarkings").not('.disabled').on('click', function() {
+        if (!$(this).hasClass('active')) {
+            $(".unmarked").each(function() {
+                $(this).addClass('marked');
+                $(this).removeClass('unmarked');
+            });
+        } else {
+            $(".marked").each(function() {
+                $(this).addClass('unmarked');
+                $(this).removeClass('marked');
+            });
+        }
+        toggleCheckbox($(this));
+    });
+
+    (function defineMarks() {
+        var last = $("tr:first-child td:last-child").index();
+        var col, min = Number.MAX_VALUE;
+        $("tr:last-child td").each(function() {
+            if ($(this).index() != last) {
+                var val = parseFloat($(this).text());
+                if (val < min) {
+                    min = val;
+                    col = $(this).index() + 1;
+                }
+            }
+        });
+        if (min < 0) {
+            $("table tr th:nth-child("+col+"),td:nth-child("+col+")").each(function() {
+                $(this).addClass('unmarked');
+            });
+            var row, min = Number.MAX_VALUE
+            $("table tbody tr").each(function() {
+                var x = parseFloat($(this).find("td:last-child").text());
+                var y = parseFloat($(this).find("td:nth-child("+col+")").text());
+                if (y > 0 && $(this).find("td:first-child").text() != 'Z') {
+                    var val = x / y;
+                    if (val < min) {
+                        min = val;
+                        row = $(this).index() + 1;
+                    }
+                }
+            });
+            $("table tbody tr:nth-child("+row+")").addClass('unmarked');
+        }
+    })();
+
+    function toggleCheckbox(e) {
+        var $checkbox = e.find(':checkbox');
+        $checkbox.attr('checked', !$checkbox.attr('checked'));
     }
 
-    var name = location.pathname.split('/').slice(-1)[0];
-    if (name != 'table') {
-        document.getElementById("solucao").className += " disabled";
+    if ($("input[name='showMarkingsOn']").val() == 'on') {
+        $("#showMarkings").click();
     }
-    if (name == 'sensitivity' || $("#noSolution").length) {
-        document.getElementById("proximo").className += " disabled";
+    if ($("input[name='toFractionsOn']").val() == 'on') {
+        $("#toFractions").click();
     }
 });

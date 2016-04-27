@@ -78,6 +78,9 @@ hr.mdivider:after {
     position: relative;
     top: -0.8em;
 }
+.marked {
+    background-color: #eee;
+}
 @media (min-width: 768px) {
     .mdivider {
         display: none;

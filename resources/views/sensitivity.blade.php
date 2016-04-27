@@ -24,7 +24,7 @@
         @endforeach
         </tbody>
     </table>
-    @include('partials.fractions')
+    @include('partials.checkboxes')
     @include('partials.buttons')
 {!! Form::close() !!}
 @stop
