@@ -103,7 +103,7 @@ class SimplexRepository
             if ($currentRow[$this->col] != 0 && $currentRow != $pivotRow) {
                 $multiplier = $currentRow[$this->col] * -1;
                 foreach ($currentRow as $key => $value) {
-                    $currentRow[$key] = round($pivotRow[$key] * $multiplier + $value, 14);
+                    $currentRow[$key] = round($pivotRow[$key] * $multiplier + $value, 17);
                 }
             }
         }

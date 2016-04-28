@@ -133,6 +133,8 @@ $(document).ready(function() {
                 }
             });
             $("table tbody tr:nth-child("+row+")").addClass('unmarked');
+        } else {
+            $("#showMarkings").addClass("disabled");
         }
     })();
 
