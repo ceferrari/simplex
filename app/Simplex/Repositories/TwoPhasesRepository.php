@@ -6,13 +6,10 @@ use App\Simplex\Repositories\HomeRepository as Home;
 
 class TwoPhasesRepository
 {
-    private $table;
-    private $operators;
-    private $twoPhasesZ;
-
     public function __construct() {
         $this->table = \Session::get('table');
         $this->operators = \Session::get('operators');
+        $this->objective = \Session::get('objective');
         $this->twoPhasesZ = \Session::get('twoPhasesZ');
     }
 
@@ -32,6 +29,7 @@ class TwoPhasesRepository
         \Session::set('table', $table);
         $table = (new Home())->createTable();
         foreach ($this->operators as $key => $value) {
+            echo $key . " " . $value;
             if ($value == 'greater') {
                 $table['a'.$key]['e'.$key] = -1;
                 unset($table['e'.$key]);
@@ -76,25 +74,30 @@ class TwoPhasesRepository
 
     private function phaseTwoStepOne($table) {
         foreach ($table as $row => $vRow) {
-            foreach ($table[$row] as $col => $vCol) {
-                if (preg_match('/x/', $col) && $row == 'Z') {
-                    $table['Z'][$col] = $this->twoPhasesZ[$col] * -1;
-                }
+            foreach ($vRow as $col => $vCol) {
                 if (preg_match('/a/', $col)) {
                     unset($table[$row][$col]);
                 }
             }
+        }
+        foreach ($this->twoPhasesZ as $key => $value) {
+            $table['Z'][$key] = $value * -1;
         }
         return $table;
     }
 
     private function phaseTwoStepTwo($table) {
         foreach ($table as $row => $vRow) {
-            if (preg_match('/x/', $row) && $table['Z'][$row] < 0) {
+            if (preg_match('/x/', $row)) {
                 $multiplier = $table['Z'][$row] * -1;
                 foreach ($vRow as $col => $vCol) {
                     $table['Z'][$col] += $vCol * $multiplier;
                 }
+            }
+        }
+        if ($this->objective == 'minimize') {
+            foreach ($table['Z'] as $key => $value) {
+                $table['Z'][$key] *= -1;
             }
         }
         return $table;

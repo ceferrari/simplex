@@ -4,9 +4,6 @@ namespace App\Simplex\Repositories;
 
 class SensitivityRepository
 {
-    private $table;
-    private $columnB;
-
     public function __construct() {
         $this->table = \Session::get('table');
         $this->columnB = \Session::get('columnB');

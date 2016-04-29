@@ -2,6 +2,8 @@
 
 @section('content')
 {!! Form::open(['action' => 'HomeController@postVariables', 'class' => 'form text-center']) !!}
+    <h2><b>{{ $objective == 'maximize' ? 'Maximização' : 'Minimização' }}</b></h2>
+    <hr class="divider">
     <h3><b>Função:</b></h3>
     <div class="form-inline">
         @for ($i = 1; $i <= $variables; $i++)
@@ -11,11 +13,10 @@
             <div class="input-group-addon"><b>{{ 'x'.$i }}</b></div>
         </div>
         @if ($i < $variables)
-        &nbsp;&nbsp;+&nbsp;&nbsp;
+        &nbsp;+&nbsp;
         @endif
         @endfor
     </div>
-    <hr class="divider">
     <h3><b>Restrições:</b></h3>
     @for($i = 1; $i <= $constraints; $i++)
     <div class="form-inline">
@@ -26,7 +27,7 @@
             <div class="input-group-addon"><b>{{ 'x'.$j }}</b></div>
         </div>
         @if ($j < $variables)
-        &nbsp;&nbsp;+&nbsp;&nbsp;
+        &nbsp;+&nbsp;
         @endif
         @endfor
         <select name="{{ 'operators['.$i.']' }}" class="form-control operator col-xs-8-variables">

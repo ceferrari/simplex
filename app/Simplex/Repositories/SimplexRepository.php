@@ -6,13 +6,6 @@ use App\Simplex\Repositories\TwoPhasesRepository as TwoPhases;
 
 class SimplexRepository
 {
-    private $table;
-    private $row;
-    private $col;
-    private $pivot;
-    private $iterations;
-    private $objective;
-
     public function __construct() {
         $this->table = \Session::get('table');
         $this->iterations = \Session::get('iterations');
@@ -27,9 +20,7 @@ class SimplexRepository
         $this->iterate(false);
         $twoPhases = new TwoPhases();
         if ($twoPhases->isOptimal($this->table)) {
-            $this->table = $twoPhases->phaseTwo($this->table);
-            $this->iterate(true);
-            return $this->table;
+            return $twoPhases->phaseTwo($this->table);
         }
         $solution = array_fill_keys(array_keys($this->table['Z']), 0);
         foreach ($this->table as $key => $row) {
@@ -43,14 +34,16 @@ class SimplexRepository
     }
 
     private function iterate($return) {
-        $min = min($this->table['Z']);
-        while ($min < 0 && $this->iterations--) {
+        $this->z = array_diff($this->table['Z'], ['b' => $this->table['Z']['b']]);
+        $this->min = min($this->z);
+        while ($this->min < 0 && $this->iterations--) {
             $this->execute();
-            $min = min($this->table['Z']);
+            $this->min = min($this->z);
             if ($return) {
                 return true;
             }
         }
+        $this->setSessionValues();
         return false;
     }
 
@@ -64,10 +57,7 @@ class SimplexRepository
     }
 
     private function findColumn() {
-        $z = array_diff($this->table['Z'], ['b' => $this->table['Z']['b']]);
-        $min = min($z);
-        \Session::set('hasSolution', ($min < 0 ? 'true' : 'false'));
-        $this->col = array_search($min, $z);
+        $this->col = array_search($this->min, $this->z);
     }
 
     private function findRowAndPivot() {
@@ -109,8 +99,18 @@ class SimplexRepository
         }
     }
 
+    private function hasArtifical() {
+        foreach ($this->table as $key => $row) {
+            if (preg_match('/a/', $key)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private function setSessionValues() {
         \Session::set('table', $this->table);
         \Session::set('iterations', $this->iterations);
+        \Session::set('hasSolution', $this->min >= 0 && $this->hasArtifical() ? 'false' : 'true');
     }
 }
