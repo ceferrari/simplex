@@ -18,23 +18,22 @@ class SimplexRepository
 
     public function finalSolution() {
         $this->iterate(false);
-        $twoPhases = new TwoPhases();
-        if ($twoPhases->isOptimal($this->table)) {
-            return $twoPhases->phaseTwo($this->table);
+        if ($this->min >= 0 && $this->hasArtifical($this->z)) {
+            return (new TwoPhases())->phaseTwo($this->table);
         }
-        $solution = array_fill_keys(array_keys($this->table['Z']), 0);
+        $solution = array_fill_keys(array_keys($this->z), 0);
         foreach ($this->table as $key => $row) {
             $solution[$key] = $row['b'];
         }
         if ($this->objective == 'minimize') {
             $solution['Z'] *= -1;
         }
-        unset($solution['b']);
         return $solution;
     }
 
     private function iterate($return) {
-        $this->z = array_diff($this->table['Z'], ['b' => $this->table['Z']['b']]);
+        $this->z = $this->table['Z'];
+        unset($this->z['b']);
         $this->min = min($this->z);
         while ($this->min < 0 && $this->iterations--) {
             $this->execute();
@@ -50,9 +49,11 @@ class SimplexRepository
     private function execute() {
         $this->findColumn();
         $this->findRowAndPivot();
-        $this->switchRowCol();
-        $this->divByPivot();
-        $this->nullifyColumn();
+        if ($this->row != -1) {
+            $this->switchRowCol();
+            $this->divByPivot();
+            $this->nullifyColumn();
+        }
         $this->setSessionValues();
     }
 
@@ -62,6 +63,7 @@ class SimplexRepository
 
     private function findRowAndPivot() {
         $min = PHP_INT_MAX;
+        $this->row = $this->pivot = -1;
         foreach ($this->table as $key => $row) {
             $value = $row[$this->col];
             if ($value > 0 &&  $row['b'] / $row[$this->col] < $min) {
@@ -99,18 +101,19 @@ class SimplexRepository
         }
     }
 
-    private function hasArtifical() {
-        foreach ($this->table as $key => $row) {
+    private function setSessionValues() {
+        \Session::set('table', $this->table);
+        \Session::set('iterations', $this->iterations);
+        \Session::set('solutionType', ($this->min >= 0 && $this->hasArtifical($this->table)) ? 'noSolution' :
+                                      ($this->min < 0 && $this->row == -1) ? 'infinite' : 'optimal');
+    }
+
+    private function hasArtifical($array) {
+        foreach ($array as $key => $value) {
             if (preg_match('/a/', $key)) {
                 return true;
             }
         }
         return false;
-    }
-
-    private function setSessionValues() {
-        \Session::set('table', $this->table);
-        \Session::set('iterations', $this->iterations);
-        \Session::set('hasSolution', $this->min >= 0 && $this->hasArtifical() ? 'false' : 'true');
     }
 }

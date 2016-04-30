@@ -4,7 +4,7 @@
 {!! Form::open(['action' => 'HomeController@postSolution', 'class' => 'form text-center']) !!}
     <h2><b>Solução:</b></h2>
     <hr class="separator" />
-    @if (Session::get('hasSolution') == 'true')
+    @if (Session::get('solutionType') == 'optimal')
     <div class="row">
         <div class="col-md-6 col-sm-6">
             <table class="table table-hover table-bordered table-solution table-solution-right">
@@ -46,8 +46,10 @@
         </div>
     </div>
     @include('partials.checkboxes')
-    @else
-    <h2 id="noSolution">Não existe uma solução possível para o problema.</h2>
+    @elseif (Session::get('solutionType') == 'infinite')
+    <h2 id="notOptimal">Existem infinitas soluções para o problema.</h2>
+    @elseif (Session::get('solutionType') == 'noSolution')
+    <h2 id="notOptimal">Não existe uma solução ótima para o problema.</h2>
     @endif
     @include('partials.buttons')
 {!! Form::close() !!}

@@ -12,6 +12,9 @@ class HomeRepository
 
     public function createTable() {
         foreach ($this->table as $row => $vRow) {
+            foreach ($vRow as $col => $vCol) {
+                $this->table[$row][$col] = str_replace(',', '.', $vCol);
+            }
             foreach ($this->table as $col => $vCol) {
                 $this->table[$row][$col] = intval($row == $col);
             }

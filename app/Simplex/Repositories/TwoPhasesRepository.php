@@ -58,16 +58,6 @@ class TwoPhasesRepository
         return $this->table;
     }
 
-    public function isOptimal($table) {
-        $hasArtifical = false;
-        foreach ($table['Z'] as $key => $value) {
-            if (preg_match('/a/', $key)) {
-                $hasArtifical = true;
-            }
-        }
-        return (min($table['Z']) >= 0 && $hasArtifical);
-    }
-
     public function phaseTwo($table) {
         return $this->phaseTwoStepTwo($this->phaseTwoStepOne($table));
     }

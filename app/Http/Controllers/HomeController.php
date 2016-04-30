@@ -68,7 +68,7 @@ class HomeController extends Controller
             return redirect('table');
         }
         $table = (new Simplex())->solution();
-        if (is_array($table['Z']) && $request->session()->get('hasSolution') == 'true') {
+        if (is_array($table['Z']) && $request->session()->get('solutionType') == 'optimal') {
             $request->session()->set('table', $table);
             return redirect('table');
         }

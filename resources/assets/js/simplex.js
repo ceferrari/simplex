@@ -6,7 +6,7 @@ $(document).ready(function() {
     if (name != 'table' || (name == 'table' && $("input[name='twoPhases']").val() == 'true')) {
         $("#showMarkings").addClass("disabled");
     }
-    if (name == 'sensitivity' || $("#noSolution").length) {
+    if (name == 'sensitivity' || $("#notOptimal").length) {
         $("#proximo").addClass("disabled");
     }
 
@@ -104,39 +104,43 @@ $(document).ready(function() {
         toggleCheckbox($(this));
     });
 
-    (function defineMarks() {
-        var last = $("tr:first-child td:last-child").index();
-        var col, min = Number.MAX_VALUE;
-        $("tr:last-child td").each(function() {
-            if ($(this).index() != last) {
-                var val = parseFloat($(this).text());
-                if (val < min) {
-                    min = val;
-                    col = $(this).index() + 1;
-                }
-            }
-        });
-        if (min < 0) {
-            $("table tr th:nth-child("+col+"),td:nth-child("+col+")").each(function() {
-                $(this).addClass('unmarked');
-            });
-            var row, min = Number.MAX_VALUE
-            $("table tbody tr").each(function() {
-                var x = parseFloat($(this).find("td:last-child").text());
-                var y = parseFloat($(this).find("td:nth-child("+col+")").text());
-                if (y > 0 && $(this).find("td:first-child").text() != 'Z') {
-                    var val = x / y;
+    if (!$("#showMarkings").hasClass('disabled') && name == 'table') {
+        (function defineMarks() {
+            var last = $("tr:first-child td:last-child").index();
+            var col, min = Number.MAX_VALUE;
+            $("tr:last-child td").each(function() {
+                if ($(this).index() != last) {
+                    var val = parseFloat($(this).text());
                     if (val < min) {
                         min = val;
-                        row = $(this).index() + 1;
+                        col = $(this).index() + 1;
                     }
                 }
             });
-            $("table tbody tr:nth-child("+row+")").addClass('unmarked');
-        } else {
+            if (min < 0) {
+                var row, min = Number.MAX_VALUE
+                $("table tbody tr").each(function() {
+                    var x = parseFloat($(this).find("td:last-child").text());
+                    var y = parseFloat($(this).find("td:nth-child("+col+")").text());
+                    if (y > 0 && $(this).find("td:first-child").text() != 'Z') {
+                        var val = x / y;
+                        if (val < min) {
+                            min = val;
+                            row = $(this).index() + 1;
+                        }
+                    }
+                });
+                if (min < Number.MAX_VALUE) {
+                    $("table tbody tr:nth-child("+row+")").addClass('unmarked');
+                    $("table tr th:nth-child("+col+"),td:nth-child("+col+")").each(function() {
+                        $(this).addClass('unmarked');
+                    });
+                    return;
+                }
+            }
             $("#showMarkings").addClass("disabled");
-        }
-    })();
+        })();
+    }
 
     function toggleCheckbox(e) {
         var $checkbox = e.find(':checkbox');
