@@ -43,10 +43,9 @@ class SimplexRepository
             }
             $this->iterate(false);
         }
-        if ($this->iterate(true)) {
+        if ($this->iterate($return)) {
             return $this->table;
         }
-        $this->iterate(false);
         $solution = array_fill_keys(array_keys($this->z), 0);
         foreach ($this->table as $key => $row) {
             $solution[$key] = $row['b'];
