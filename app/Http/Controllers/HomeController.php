@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Simplex\Repositories\HomeRepository as Home;
 use App\Simplex\Repositories\SimplexRepository as Simplex;
 use App\Simplex\Repositories\TwoPhasesRepository as TwoPhases;
 use App\Simplex\Repositories\SensitivityRepository as Sensitivity;
@@ -43,31 +42,18 @@ class HomeController extends Controller
     public function postVariables(Request $request) {
         $request->session()->set('showMarkings', 'on');
         $request->session()->set('toFractions', 'on');
-        $request->session()->set('hasSolution', 'true');
         $request->session()->set('table', $request->get('table'));
         $request->session()->set('columnB', array_column($request->get('table'), 'B'));
         $request->session()->set('operators', $request->get('operators'));
         $request->session()->set('twoPhases', $request->get('twoPhases'));
-        $request->session()->set('twoPhasesZ', $request->get('table')['z']);
-        if ($request->get('twoPhases') == 'true') {
-            $table = (new TwoPhases())->phaseOneStepOne();
-        }
-        else {
-            $table = (new Home())->createTable();
-        }
-        $request->session()->set('table', $table);
+        $request->session()->set('table', (new TwoPhases())->phaseOne());
         return redirect('table');
     }
 
     public function postTable(Request $request) {
         $request->session()->set('showMarkings', $request->get('showMarkings'));
         $request->session()->set('toFractions', $request->get('toFractions'));
-        if ($request->session()->get('twoPhases') == 'true') {
-            $request->session()->set('twoPhases', 'false');
-            $request->session()->set('table', (new TwoPhases())->phaseOneStepTwo());
-            return redirect('table');
-        }
-        $table = (new Simplex())->solution();
+        $table = (new Simplex())->solution(true);
         if (is_array($table['Z']) && $request->session()->get('solutionType') == 'optimal') {
             $request->session()->set('table', $table);
             return redirect('table');
@@ -84,10 +70,7 @@ class HomeController extends Controller
     }
 
     public function postFinalSolution(Request $request) {
-        if ($request->session()->get('twoPhases') == 'true') {
-            $request->session()->set('table', (new TwoPhases())->phaseOneStepTwo());
-        }
-        $request->session()->set('solution', (new Simplex())->finalSolution());
+        $request->session()->set('solution', (new Simplex())->solution(false));
         return redirect('solution');
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Simplex\Repositories;
 
-class HomeRepository
+class TableRepository
 {
     public function __construct() {
         $this->objective = \Session::get('objective');
@@ -10,7 +10,7 @@ class HomeRepository
         $this->table['z']['B'] = 0;
     }
 
-    public function createTable() {
+    public function create() {
         foreach ($this->table as $row => $vRow) {
             foreach ($vRow as $col => $vCol) {
                 $this->table[$row][$col] = str_replace(',', '.', $vCol);

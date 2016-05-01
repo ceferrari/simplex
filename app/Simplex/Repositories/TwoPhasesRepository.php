@@ -2,7 +2,7 @@
 
 namespace App\Simplex\Repositories;
 
-use App\Simplex\Repositories\HomeRepository as Home;
+use App\Simplex\Repositories\TableRepository as Table;
 
 class TwoPhasesRepository
 {
@@ -13,7 +13,15 @@ class TwoPhasesRepository
         $this->twoPhasesZ = \Session::get('twoPhasesZ');
     }
 
-    public function phaseOneStepOne() {
+    public function phaseOne() {
+        if (\Session::get('twoPhases') == 'true') {
+            \Session::set('twoPhasesZ', $this->table['z']);
+            return $this->phaseOneStepOne();
+        }
+        return (new Table())->create();
+    }
+
+    private function phaseOneStepOne() {
         foreach ($this->operators as $key => $value) {
             if ($value == 'less') {
                 $table['f'.$key] = $this->table['f'.$key];
@@ -27,7 +35,7 @@ class TwoPhasesRepository
         }
         $table['z'] = $this->table['z'];
         \Session::set('table', $table);
-        $table = (new Home())->createTable();
+        $table = (new Table())->create();
         foreach ($this->operators as $key => $value) {
             echo $key . " " . $value;
             if ($value == 'greater') {

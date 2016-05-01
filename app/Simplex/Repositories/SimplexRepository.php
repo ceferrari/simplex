@@ -12,15 +12,41 @@ class SimplexRepository
         $this->objective = \Session::get('objective');
     }
 
-    public function solution() {
-        return $this->iterate(true) ? $this->table : $this->finalSolution();
+    private function isPhaseOne() {
+        if (\Session::get('twoPhases') == 'true') {
+            \Session::set('twoPhases', 'false');
+            $this->table = (new TwoPhases())->phaseOneStepTwo();
+            return true;
+        }
+        return false;
     }
 
-    public function finalSolution() {
-        $this->iterate(false);
+    private function isPhaseTwo() {
+        $this->findMin();
         if ($this->min >= 0 && $this->hasArtifical($this->z)) {
-            return (new TwoPhases())->phaseTwo($this->table);
+            $this->table = (new TwoPhases())->phaseTwo($this->table);
+            return true;
         }
+        return false;
+    }
+
+    public function solution($return) {
+        if ($this->isPhaseOne()) {
+            if ($return) {
+                return $this->table;
+            }
+            $this->iterate(false);
+        }
+        if ($this->isPhaseTwo()) {
+            if ($return) {
+                return $this->table;
+            }
+            $this->iterate(false);
+        }
+        if ($this->iterate(true)) {
+            return $this->table;
+        }
+        $this->iterate(false);
         $solution = array_fill_keys(array_keys($this->z), 0);
         foreach ($this->table as $key => $row) {
             $solution[$key] = $row['b'];
@@ -32,12 +58,10 @@ class SimplexRepository
     }
 
     private function iterate($return) {
-        $this->z = $this->table['Z'];
-        unset($this->z['b']);
-        $this->min = min($this->z);
+        $this->findMin();
         while ($this->min < 0 && $this->iterations--) {
             $this->execute();
-            $this->min = min($this->z);
+            $this->findMin();
             if ($return) {
                 return true;
             }
@@ -49,7 +73,7 @@ class SimplexRepository
     private function execute() {
         $this->findColumn();
         $this->findRowAndPivot();
-        if ($this->row != -1) {
+        if ($this->row != PHP_INT_MAX) {
             $this->switchRowCol();
             $this->divByPivot();
             $this->nullifyColumn();
@@ -57,17 +81,22 @@ class SimplexRepository
         $this->setSessionValues();
     }
 
+    private function findMin() {
+        $this->z = $this->table['Z'];
+        unset($this->z['b']);
+        $this->min = min($this->z);
+    }
+
     private function findColumn() {
         $this->col = array_search($this->min, $this->z);
     }
 
     private function findRowAndPivot() {
-        $min = PHP_INT_MAX;
-        $this->row = $this->pivot = -1;
+        $min = $this->row = $this->pivot = PHP_INT_MAX;
         foreach ($this->table as $key => $row) {
             $value = $row[$this->col];
-            if ($value > 0 &&  $row['b'] / $row[$this->col] < $min) {
-                $min =   $row['b'] / $row[$this->col];
+            if ($value > 0 && $row['b'] / $value < $min) {
+                $min = $row['b'] / $value;
                 $this->row = $key;
                 $this->pivot = $value;
             }
@@ -76,8 +105,7 @@ class SimplexRepository
 
     private function switchRowCol() {
         $keys = array_keys($this->table);
-        $index = array_search($this->row, $keys);
-        $keys[$index] = $this->col;
+        $keys[array_search($this->row, $keys)] = $this->col;
         $this->table = array_combine($keys, $this->table);
         $this->row = $this->col;
     }
@@ -105,7 +133,7 @@ class SimplexRepository
         \Session::set('table', $this->table);
         \Session::set('iterations', $this->iterations);
         \Session::set('solutionType', ($this->min >= 0 && $this->hasArtifical($this->table)) ? 'noSolution' :
-                                      ($this->min < 0 && $this->row == -1) ? 'infinite' : 'optimal');
+                                      ($this->min < 0 && $this->row == PHP_INT_MAX) ? 'infinite' : 'optimal');
     }
 
     private function hasArtifical($array) {
