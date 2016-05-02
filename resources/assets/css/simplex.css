@@ -59,6 +59,9 @@ h6 {
 .table-sensitivity th {
     max-width: 5.5em;
 }
+.table-sensitivity th:first-child {
+    min-width: 6em;
+}
 a.btn.disabled {
     pointer-events: auto;
 }

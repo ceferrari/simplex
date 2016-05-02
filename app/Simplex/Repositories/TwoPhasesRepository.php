@@ -8,14 +8,13 @@ class TwoPhasesRepository
 {
     public function __construct() {
         $this->table = \Session::get('table');
+        $this->rowZ = \Session::get('rowZ');
         $this->operators = \Session::get('operators');
         $this->objective = \Session::get('objective');
-        $this->twoPhasesZ = \Session::get('twoPhasesZ');
     }
 
     public function phaseOne() {
         if (\Session::get('twoPhases') == 'true') {
-            \Session::set('twoPhasesZ', $this->table['z']);
             return $this->phaseOneStepOne();
         }
         return (new Table())->create();
@@ -78,7 +77,7 @@ class TwoPhasesRepository
                 }
             }
         }
-        foreach ($this->twoPhasesZ as $key => $value) {
+        foreach ($this->rowZ as $key => $value) {
             $table['Z'][$key] = $value * -1;
         }
         return $table;

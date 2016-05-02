@@ -23,7 +23,7 @@ class SimplexRepository
 
     private function isPhaseTwo() {
         $this->findMin();
-        if ($this->min >= 0 && $this->hasArtifical($this->z)) {
+        if ($this->min >= 0 && $this->hasArtifical($this->z) && !$this->noSolution()) {
             $this->table = (new TwoPhases())->phaseTwo($this->table);
             return true;
         }
@@ -131,8 +131,7 @@ class SimplexRepository
     private function setSessionValues() {
         \Session::set('table', $this->table);
         \Session::set('iterations', $this->iterations);
-        \Session::set('solutionType', ($this->min >= 0 && $this->hasArtifical($this->table)) ? 'noSolution' :
-                                      (($this->min < 0 && $this->row == PHP_INT_MAX) ? 'infinite' : 'optimal'));
+        \Session::set('solutionType', $this->noSolution() ? 'noSolution' : ($this->infSolutions() ? 'infinite' : 'optimal'));
     }
 
     private function hasArtifical($array) {
@@ -142,5 +141,13 @@ class SimplexRepository
             }
         }
         return false;
+    }
+
+    private function noSolution() {
+        return $this->min >= 0 && $this->hasArtifical($this->table);
+    }
+
+    private function infSolutions() {
+        return $this->min < 0 && $this->row == PHP_INT_MAX;
     }
 }

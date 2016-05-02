@@ -44,6 +44,7 @@ class HomeController extends Controller
         $request->session()->set('toFractions', 'on');
         $request->session()->set('solutionType', 'optimal');
         $request->session()->set('table', $request->get('table'));
+        $request->session()->set('rowZ', $request->get('table')['z']);
         $request->session()->set('columnB', array_column($request->get('table'), 'B'));
         $request->session()->set('operators', $request->get('operators'));
         $request->session()->set('twoPhases', $request->get('twoPhases'));
