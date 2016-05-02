@@ -42,6 +42,7 @@ class HomeController extends Controller
     public function postVariables(Request $request) {
         $request->session()->set('showMarkings', 'on');
         $request->session()->set('toFractions', 'on');
+        $request->session()->set('solutionType', 'optimal');
         $request->session()->set('table', $request->get('table'));
         $request->session()->set('columnB', array_column($request->get('table'), 'B'));
         $request->session()->set('operators', $request->get('operators'));

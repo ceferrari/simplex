@@ -4,6 +4,7 @@
 {!! Form::open(['action' => 'HomeController@postTable', 'class' => 'form text-center']) !!}
     <h2><b>Análise de Sensibilidade:</b></h2>
     <hr class="separator" />
+    @if (is_array(Session::get('sensitivity')))
     <table class="table table-hover table-sensitivity">
         <thead>
             <tr>
@@ -25,6 +26,9 @@
         </tbody>
     </table>
     @include('partials.checkboxes')
+    @else
+    <h2>Não é possível realizar a Análise de Sensibilidade para este problema, pois não há váriaveis de folga ou excesso.</h2>
+    @endif
     @include('partials.buttons')
 {!! Form::close() !!}
 @stop

@@ -23,6 +23,10 @@ $(document).ready(function() {
         }
     });
 
+    $(".disabled").click(function(e) {
+        e.preventDefault();
+    });
+
     $("#objectives .btn").click(function() {
         $("#objective").val($(this).find(":input").val());
     });

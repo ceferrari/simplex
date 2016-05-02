@@ -96,6 +96,7 @@ class TwoPhasesRepository
         if ($this->objective == 'minimize') {
             foreach ($table['Z'] as $key => $value) {
                 $table['Z'][$key] *= -1;
+                $table['Z'][$key] += 0;
             }
         }
         return $table;

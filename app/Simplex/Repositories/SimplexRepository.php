@@ -132,7 +132,7 @@ class SimplexRepository
         \Session::set('table', $this->table);
         \Session::set('iterations', $this->iterations);
         \Session::set('solutionType', ($this->min >= 0 && $this->hasArtifical($this->table)) ? 'noSolution' :
-                                      ($this->min < 0 && $this->row == PHP_INT_MAX) ? 'infinite' : 'optimal');
+                                      (($this->min < 0 && $this->row == PHP_INT_MAX) ? 'infinite' : 'optimal'));
     }
 
     private function hasArtifical($array) {
