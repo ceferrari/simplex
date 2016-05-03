@@ -31,7 +31,7 @@ class SensitivityRepository
                 $sensitivity['restrictions'][$key]['ub'] = (isset($this->table[$key])) ? '∞' : $aux + $bounds['upper'];
             }
         }
-        return isset($sensitivity) ? $sensitivity : null;
+        return $sensitivity;
     }
 
     private function calcBounds($table, $key) {

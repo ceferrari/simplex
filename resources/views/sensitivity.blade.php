@@ -4,7 +4,7 @@
 {!! Form::open(['action' => 'HomeController@postTable', 'class' => 'form text-center']) !!}
     <h2><b>Análise de Sensibilidade:</b></h2>
     <hr class="separator" />
-    @if ($sensitivity != 'null' && Session::get('solutionType') == 'optimal')
+    @if (Session::get('solutionType') == 'optimal')
     <table class="table table-hover table-sensitivity">
         <thead>
             <tr>
